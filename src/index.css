@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+/* App.css or index.css */
+html, body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  button {
+    @apply px-4 py-2 bg-[#f49d0c] text-white rounded-lg hover:bg-[#d87607] 
+      transition-all duration-300 hover:scale-110;
+  }
+  
+  

@@ -60,9 +60,9 @@ const AutoComplete = () => {
           value={searchTerm}
           onChange={handleChange}
           placeholder="Search Places in Indore"
-          className="border p-2 rounded-[20px] w-full bg-[#f4f4f5] placeholder:text-[#a8a29e] placeholder:pl-3 
+          className="border p-2 rounded-[20px] w-full bg-[#f2f2f4] placeholder:text-[#7a7876] placeholder:pl-3 
     transition-all duration-300 focus:scale-[1.05] focus:border-[#fb923c] focus:border-0 focus:outline-none 
-    focus:ring-2 focus:ring-[#fb923c] transform"
+    focus:ring-2 focus:ring-[#d6ad8c] transform"
           onFocus={(e) => e.target.classList.add("scale-[1.1]")}
           onBlur={(e) => e.target.classList.remove("scale-[1.1]")}
         />

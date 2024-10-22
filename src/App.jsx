@@ -5,6 +5,7 @@ import Container from './components/Container';
 function App() {
   return (
     <Container>
+      
       <div className="max-w-7xl mx-auto py-1 sm:px-6 lg:px-8 h-full">
         <Outlet />
       </div>

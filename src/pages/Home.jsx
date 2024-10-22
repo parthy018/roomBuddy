@@ -1,13 +1,16 @@
 // Home.jsx
+
 import homeImg from "../assets/homeImg.png";
 import rentAggrement from "../assets/rentAggrement.svg";
 import eqaro from "../assets/eqaro.svg";
+import Autocomplete from "../components/AutoComplete";
+
 const Home = () => {
+  
+
   return (
     <div className="text-center w-full min-h-screen flex flex-col gap-4">
-      {/* Home first section */}
       <div className="text-center w-full min-h-screen flex flex-col justify-center items-center gap-4 pt-20">
-        {/* Added pt-20 to push the content below the header */}
         <h1 className="text-[2.5em] font-semibold">
           Connecting You with Ideal Flatmates,
           <br />
@@ -16,6 +19,10 @@ const Home = () => {
         <p className="mt-2 py-3 px-5 outline-none rounded-[30px] bg-[#fef3c7]">
           Share Your room with the right roommates
         </p>
+        {/* Add the Autocomplete component */}
+        <div className="w-1/2 mx-auto mt-4">
+          <Autocomplete  />
+        </div>
         <img src={homeImg} alt="Example" className="mt-4 w-1/2 mx-auto" />
       </div>
       <div className="flex w-full min-h-screen bg-[#F9FAFB] p-10">
@@ -43,7 +50,6 @@ const Home = () => {
           />
         </div>
       </div>
-
       <div className="flex w-full min-h-[40vh] md:min-h-[70vh] p-5 ">
         <div className="w-1/2 h-[100] text-left flex flex-col justify-center">
           <h2 className="text-[1.8em] font-semibold">

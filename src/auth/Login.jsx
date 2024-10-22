@@ -13,9 +13,9 @@ const Login = () => {
 
   const handleUserLogin = async (data) => {
     try {
-      const userData = await login(data).unwrap(); // Perform login API call
-      dispatch(setCredentials(userData)); // Set user credentials in the store
-      navigate('/profile'); // Redirect to the profile page
+      const userData = await login(data).unwrap(); 
+      dispatch(setCredentials(userData)); 
+      navigate('/profile'); 
     } catch (err) {
       console.error('Failed to log in:', err); // Handle login error
     }

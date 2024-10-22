@@ -1,18 +1,31 @@
 import { EyeIcon, GoogleIcon } from '../assets/svgIcons/Svg';
 import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
+import { setCredentials } from '../app/authSlice';
+import { useRegisterMutation } from '../app/appSlice'; // Import the hook
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
   const { register, handleSubmit, formState: { errors }, watch } = useForm();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [registerUser, { isLoading, error }] = useRegisterMutation(); 
 
-  const handleUserRegister = (data) => {
-    console.log(data);
+  const handleUserRegister = async (data) => {
+    try {
+      const userData = await registerUser(data).unwrap(); 
+      dispatch(setCredentials(userData)); 
+      navigate('/profile'); 
+    } catch (err) {
+      console.error('Registration failed:', err); 
+    }
   };
 
-  // Watch the password and confirm password fields for validation
+ 
   const password = watch('password');
 
   return (
-    <section className="min-h-[100] flex items-center justify-center ">
+    <section className="min-h-[100] flex items-center justify-center">
       <div className="flex rounded-2xl max-w-3xl p-5 items-center border">
         <div className="md:w-1/2 px-8 md:px-16">
           <h2 className="font-bold text-2xl text-[#002D74]">Register</h2>
@@ -76,10 +89,13 @@ const Register = () => {
             <button
               type="submit"
               className="rounded-xl text-white py-2 hover:scale-105 duration-300"
+              disabled={isLoading} // Disable button during loading
             >
-              Register
+              {isLoading ? 'Registering...' : 'Register'}
             </button>
           </form>
+
+          {error && <p className="text-red-500 mt-2">Registration failed. Please try again.</p>}
 
           <div className="mt-6 grid grid-cols-3 items-center text-gray-400">
             <hr className="border-gray-400" />

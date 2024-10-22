@@ -12,6 +12,7 @@ import Register from './auth/Register.jsx';
 import { Provider } from 'react-redux';
 import { store } from './app/store.js';
 import './index.css';
+import Properties from './pages/Properties.jsx';
 
 // Create routes
 const router = createBrowserRouter([
@@ -20,12 +21,17 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       {
+        
         path: '/',
         element: <Home />, // Home page (Landing page)
       },
       {
         path: '/about',
         element: <About />, // About Us page
+      },
+      {
+        path: '/properties/:place',
+        element:<Properties />
       },
       {
         path: '/profile',

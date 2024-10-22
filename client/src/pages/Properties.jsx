@@ -20,8 +20,8 @@ const Properties = () => {
       <h1 className="text-xl font-semibold text-gray-700 my-6">
         Properties in {place.replace(/-/g, " ")}
       </h1>
-      <div className="w-full flex gap-6 my-2 p-1 justify-between items-center border-b-2 bg-blue-500">
-       <div className="flex gap-6 bg-orange-600">
+      <div className="w-full flex gap-6 my-2 p-1 justify-between items-center border-b-2">
+       <div className="flex gap-6 ">
        <CategoryListing icon={<LuFileStack size={20} />}  title="All Properties" />
         <CategoryListing icon={<IoBedOutline size={20} />} title="Rooms" />
         <CategoryListing icon={<IoPeopleOutline size={20} />} title="roommates" />

@@ -13,4 +13,22 @@ const authMiddleware = (req, res, next) => {
   }
 };
 
-module.exports = authMiddleware;
+const seekerAuthMiddleware = (req, res, next) => {
+  authMiddleware(req, res, () => {
+    if (req.user.role !== 'seeker') {
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
+    next();
+  });
+};
+
+const hostAuthMiddleware = (req, res, next) => {
+  authMiddleware(req, res, () => {
+    if (req.user.role !== 'host') {
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
+    next();
+  });
+};
+
+module.exports = {authMiddleware, seekerAuthMiddleware, hostAuthMiddleware};

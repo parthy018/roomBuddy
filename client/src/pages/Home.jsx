@@ -4,6 +4,48 @@ import eqaro from "../assets/eqaro.svg";
 import Autocomplete from "../components/AutoComplete";
 
 const Home = () => {
+  const places = [
+    {
+      name: "Khajrana",
+      imgUrl: "https://images.unsplash.com/photo-1499678329028-101435549a4e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+      name: "Palasia",
+      imgUrl: "https://images.unsplash.com/photo-1499678329028-101435549a4e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+      name: "Bangali",
+      imgUrl: "https://images.unsplash.com/photo-1499678329028-101435549a4e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+      name: "Vijay Nagar",
+      imgUrl: "https://images.unsplash.com/photo-1595521624992-48a59aef95e3?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGJlYXV0aWZ1bCUyMHBsYWNlcyUyMGJ1aWxkaW5nfGVufDB8fDB8fHww"
+    },
+    {
+      name: "Saket",
+      imgUrl: "https://images.unsplash.com/photo-1595521624992-48a59aef95e3?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGJlYXV0aWZ1bCUyMHBsYWNlcyUyMGJ1aWxkaW5nfGVufDB8fDB8fHww"
+    },
+    {
+      name: "Noida",
+      imgUrl: "https://images.unsplash.com/photo-1595521624992-48a59aef95e3?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGJlYXV0aWZ1bCUyMHBsYWNlcyUyMGJ1aWxkaW5nfGVufDB8fDB8fHww"
+    },
+    {
+      name: "Delhi",
+      imgUrl: "https://images.unsplash.com/photo-1595521624992-48a59aef95e3?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGJlYXV0aWZ1bCUyMHBsYWNlcyUyMGJ1aWxkaW5nfGVufDB8fDB8fHww"
+    },
+    {
+      name: "Mumbai",
+      imgUrl: "https://images.unsplash.com/photo-1595521624992-48a59aef95e3?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGJlYXV0aWZ1bCUyMHBsYWNlcyUyMGJ1aWxkaW5nfGVufDB8fDB8fHww"
+    },
+    {
+      name: "Chandigarh",
+      imgUrl: "https://images.unsplash.com/photo-1595521624992-48a59aef95e3?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGJlYXV0aWZ1bCUyMHBsYWNlcyUyMGJ1aWxkaW5nfGVufDB8fDB8fHww"
+    },
+    {
+      name: "Kolkata",
+      imgUrl: "https://images.unsplash.com/photo-1595521624992-48a59aef95e3?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGJlYXV0aWZ1bCUyMHBsYWNlcyUyMGJ1aWxkaW5nfGVufDB8fDB8fHww"
+    },
+  ];
   return (
     <div className="text-center w-full min-h-screen flex flex-col gap-8">
       {/* Main Hero Section */}
@@ -38,9 +80,7 @@ const Home = () => {
             Lowest Price Guarantee! Create your rental <br />
             agreement online in minutes.
           </p>
-          <button
-            className="mt-10 py-3 px-5 outline-none rounded-[30px] bg-[#f49d0c] capitalize hover:bg-[#d87607] transition-colors"
-          >
+          <button className="mt-10 py-3 px-5 outline-none rounded-[30px] bg-[#f49d0c] capitalize hover:bg-[#d87607] transition-colors">
             Create now
           </button>
         </div>
@@ -75,8 +115,31 @@ const Home = () => {
           />
         </div>
       </div>
+
+      {/* View Places Section */}
+      <div className="w-full min-h-screen bg-[#F9FAFB] flex flex-col items-center p-20">
+      <h1 className="text-5xl font-medium mb-20 text-center">
+        View Rooms In Popular Places
+      </h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 w-full max-w-6xl">
+        {places.map((place, index) => (
+          <div key={index} className="shadow-md rounded-lg overflow-hidden relative">
+            <img
+              src={place.imgUrl}
+              alt={place.name}
+              className="w-full h-40 object-cover transition-transform duration-300 hover:scale-110"
+            />
+            <div className="absolute bottom-0 left-0 w-full bg-opacity-50 text-xl font-bold text-white text-center p-2">
+              {place.name}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
     </div>
   );
 };
 
 export default Home;
+
+

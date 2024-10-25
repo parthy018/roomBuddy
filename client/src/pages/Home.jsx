@@ -7,43 +7,53 @@ const Home = () => {
   const places = [
     {
       name: "Khajrana",
-      imgUrl: "https://images.unsplash.com/photo-1499678329028-101435549a4e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      imgUrl:
+        "https://images.unsplash.com/photo-1499678329028-101435549a4e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     },
     {
       name: "Palasia",
-      imgUrl: "https://images.unsplash.com/photo-1499678329028-101435549a4e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      imgUrl:
+        "https://images.unsplash.com/photo-1644144972720-4a932a9252c5?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     },
     {
       name: "Bangali",
-      imgUrl: "https://images.unsplash.com/photo-1499678329028-101435549a4e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      imgUrl:
+        "https://images.unsplash.com/photo-1499678329028-101435549a4e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     },
     {
       name: "Vijay Nagar",
-      imgUrl: "https://images.unsplash.com/photo-1595521624992-48a59aef95e3?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGJlYXV0aWZ1bCUyMHBsYWNlcyUyMGJ1aWxkaW5nfGVufDB8fDB8fHww"
+      imgUrl:
+        "https://images.unsplash.com/photo-1595521624992-48a59aef95e3?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGJlYXV0aWZ1bCUyMHBsYWNlcyUyMGJ1aWxkaW5nfGVufDB8fDB8fHww",
     },
     {
       name: "Saket",
-      imgUrl: "https://images.unsplash.com/photo-1595521624992-48a59aef95e3?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGJlYXV0aWZ1bCUyMHBsYWNlcyUyMGJ1aWxkaW5nfGVufDB8fDB8fHww"
+      imgUrl:
+        "https://images.unsplash.com/photo-1717147507202-d0be928e3b7f?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     },
     {
       name: "Noida",
-      imgUrl: "https://images.unsplash.com/photo-1595521624992-48a59aef95e3?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGJlYXV0aWZ1bCUyMHBsYWNlcyUyMGJ1aWxkaW5nfGVufDB8fDB8fHww"
+      imgUrl:
+        "https://images.unsplash.com/photo-1623741099118-e3095a66784a?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8YmVhdXRpZnVsJTIwcGxhY2VzJTIwYnVpbGRpbmd8ZW58MHx8MHx8fDA%3D",
     },
     {
       name: "Delhi",
-      imgUrl: "https://images.unsplash.com/photo-1595521624992-48a59aef95e3?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGJlYXV0aWZ1bCUyMHBsYWNlcyUyMGJ1aWxkaW5nfGVufDB8fDB8fHww"
+      imgUrl:
+        "https://images.unsplash.com/photo-1712961747359-1461301b89a0?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fGJlYXV0aWZ1bCUyMHBsYWNlcyUyMGJ1aWxkaW5nfGVufDB8fDB8fHww",
     },
     {
       name: "Mumbai",
-      imgUrl: "https://images.unsplash.com/photo-1595521624992-48a59aef95e3?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGJlYXV0aWZ1bCUyMHBsYWNlcyUyMGJ1aWxkaW5nfGVufDB8fDB8fHww"
+      imgUrl:
+        "https://images.unsplash.com/photo-1498036882173-b41c28a8ba34?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzB8fGJlYXV0aWZ1bCUyMHBsYWNlcyUyMGJ1aWxkaW5nfGVufDB8fDB8fHww",
     },
     {
       name: "Chandigarh",
-      imgUrl: "https://images.unsplash.com/photo-1595521624992-48a59aef95e3?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGJlYXV0aWZ1bCUyMHBsYWNlcyUyMGJ1aWxkaW5nfGVufDB8fDB8fHww"
+      imgUrl:
+        "https://plus.unsplash.com/premium_photo-1679582754705-0b8fc5b86042?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDEyfHx8ZW58MHx8fHx8",
     },
     {
-      name: "Kolkata",
-      imgUrl: "https://images.unsplash.com/photo-1595521624992-48a59aef95e3?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGJlYXV0aWZ1bCUyMHBsYWNlcyUyMGJ1aWxkaW5nfGVufDB8fDB8fHww"
+      name: "Musakhedi",
+      imgUrl:
+        "https://images.unsplash.com/photo-1705861144284-d52dd52fa3dd?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8YmVhdXRpZnVsJTIwcGxhY2VzJTIwYnVpbGRpbmd8ZW58MHx8MHx8fDA%3D",
     },
   ];
   return (

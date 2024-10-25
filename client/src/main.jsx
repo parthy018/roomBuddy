@@ -16,7 +16,7 @@ import './index.css';
 import Properties from './pages/Properties.jsx';
 import AdminDashboard from './dashboard/AdminDashboard.jsx';
 import Listing from './pages/Listing.jsx';
-
+import ListingFields from './pages/ListingFields.jsx';
 
 // Create routes
 const router = createBrowserRouter([
@@ -71,7 +71,12 @@ const router = createBrowserRouter([
       {
         path: '/register',
         element: <Register />,
-      }
+      },
+      {
+        path: '/listingFields',
+        element: <ListingFields />,
+      },
+
     ],
   },
 ]);

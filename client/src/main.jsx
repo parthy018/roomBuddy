@@ -10,7 +10,8 @@ import Login from './auth/Login.jsx'; // Login page component
 import PrivateRoute from './PrivateRoute.jsx'; // Import the PrivateRoute component
 import Register from './auth/Register.jsx';
 import { Provider } from 'react-redux';
-import { store } from './app/store.js';
+import { PersistGate } from 'redux-persist/integration/react';
+import { store , persistor} from './app/store.js';
 import './index.css';
 import Properties from './pages/Properties.jsx';
 import AdminDashboard from './dashboard/AdminDashboard.jsx';
@@ -36,15 +37,13 @@ const router = createBrowserRouter([
         element: <Properties />,
       },
       {
-        path:'listing',
+        path: '/listing',
         element: <PrivateRoute allowedRoles={['seeker', 'host']} />,
         children: [
-          {
-            path: '',
-            element: <Listing />,
-          },
+          { path: '', element: <Listing /> },
         ],
       },
+      
       {
         path: '/profile/:id', 
         element: <PrivateRoute allowedRoles={['seeker', 'host']} />,
@@ -81,7 +80,9 @@ const router = createBrowserRouter([
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <Provider  store={store}>
+      <PersistGate loading={null} persistor={persistor}>
     <RouterProvider router={router} />
+      </PersistGate>
     </Provider>
   </StrictMode>
 );

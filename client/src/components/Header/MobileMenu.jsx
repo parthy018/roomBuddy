@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
-import LinkButton from './LinkButton';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import Button from '../Button';
 const MobileMenu = ({ isMenuOpen,  toggleMenu }) => {
-
+  const Navigate = useNavigate();
     const { isAuthenticated } = useSelector((state) => state.auth);
   if (!isMenuOpen) {
     return null; // Do not render anything if the menu is closed
@@ -20,19 +20,17 @@ const MobileMenu = ({ isMenuOpen,  toggleMenu }) => {
         {!isAuthenticated && (
           <>
             <li>
-              <LinkButton
-                path="/login"
-                bgColor="#ffffff"
-                bgHover="#f0f0f0"
-                className="block text-gray-600 border border-gray-600"
+              <Button
+               onClick={()=>{Navigate('/login') }}
+               variant='outline'
               >
                 Login
-              </LinkButton>
+              </Button>
             </li>
             <li>
-              <LinkButton path="/register" className="block">
+              <Button onClick={()=>{Navigate('/register') }} variant='outline' >
                 Register
-              </LinkButton>
+              </Button>
             </li>
           </>
         )}

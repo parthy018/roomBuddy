@@ -1,14 +1,22 @@
-// PrivateRoute.jsx
-import { Outlet, Navigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { Navigate, Outlet } from 'react-router-dom';
+import PropTypes from 'prop-types';
+const PrivateRoute = ({ allowedRoles }) => {
+  const { isAuthenticated, role } = useSelector((state) => state.auth);
+  console.log('isAuthenticated', isAuthenticated, 'role', role);
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
 
-// Simulated authentication function
-const isAuthenticated = () => {
-  // Replace this with your actual authentication logic
-  return localStorage.getItem('auth') === 'true';
+  if (allowedRoles && !allowedRoles.includes(role)) {
+    return <Navigate to="/" replace />;
+  }
+
+  return <Outlet />; // Render the child components
 };
 
-const PrivateRoute = () => {
-  return isAuthenticated() ? <Outlet /> : <Navigate to="/login" />;
+PrivateRoute.propTypes = {
+  allowedRoles: PropTypes.array,
 };
 
 export default PrivateRoute;

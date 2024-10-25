@@ -8,7 +8,6 @@ const userSchema = new mongoose.Schema({
   gender: { type: String, enum: ["male", "female"], required: true },
   profilePicture: { type: String, required: true },
   token: { type: String },
-  isListed: { type: Boolean, default: false },
   needRoomListing: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "Room",
@@ -17,6 +16,7 @@ const userSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Roommate",
   }],
+  isListed: { type: Boolean, default: false },
   matches: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "Match",

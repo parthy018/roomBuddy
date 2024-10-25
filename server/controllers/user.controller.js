@@ -1,29 +1,41 @@
-const User = require("../models/User.model");
+const User = require("../models/user.model")
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const sendErrorResponse = require("../utills/sendErrorResponse");
 
+
 const registerUser = async (req, res) => {
-  const { name, email, password, role } = req.body;
+  console.log("req before upload ",req);
+  // Use multer to handle the file upload
   try {
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const { name, email, password, role, gender, profilePicture } = req.body;
+    const user = new User({
+      name,
+      email,
+      password,
+      role,
+      gender,
+      profilePicture,
+    });
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(password, salt);
+    await user.save();
+    const token = jwt.sign({ userId: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: "1h" });
+    const dataResponse={
+      name:user.name,
+      token:token,
+      role:user.role,
+      isListed:user.isListed
+    }
 
-    const newUser = new User({ name, email, password: hashedPassword, role });
-    await newUser.save();
-    const roleMessages = {
-      seeker: "You have successfully registered as a seeker!",
-      host: "You have successfully registered as a host!",
-      admin: "You have successfully registered as an admin!",
-    };
+    res.status(200).json({ success: true,data:dataResponse, message: "User registered successfully" });
 
-    res
-      .status(201)
-      .json({ message: roleMessages[role] || "User registered successfully!" });
+    
   } catch (error) {
-    sendErrorResponse(res, error.message, 400);
+    sendErrorResponse(res, error.message, 500);
   }
+ 
 };
-
 
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
@@ -51,7 +63,15 @@ const loginUser = async (req, res) => {
       admin: "Welcome back, admin!",
     };
 
-    res.json({ token, message: roleMessages[user.role] || "Welcome back!" });
+    const dataResponse={
+      name:user.name,
+      token:token,
+      role:user.role,
+      isListed:user.isListed,
+      
+    }
+
+    res.status(200).json({ success: true,data:dataResponse, message: roleMessages[user.role] || "Welcome back!" });
   } catch (error) {
     sendErrorResponse(res, error.message, 500);
   }

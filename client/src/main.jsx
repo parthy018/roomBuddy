@@ -10,9 +10,13 @@ import Login from './auth/Login.jsx'; // Login page component
 import PrivateRoute from './PrivateRoute.jsx'; // Import the PrivateRoute component
 import Register from './auth/Register.jsx';
 import { Provider } from 'react-redux';
-import { store } from './app/store.js';
+import { PersistGate } from 'redux-persist/integration/react';
+import { store , persistor} from './app/store.js';
 import './index.css';
 import Properties from './pages/Properties.jsx';
+import AdminDashboard from './dashboard/AdminDashboard.jsx';
+import Listing from './pages/Listing.jsx';
+
 
 // Create routes
 const router = createBrowserRouter([
@@ -21,31 +25,48 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       {
-        
         path: '/',
-        element: <Home />, // Home page (Landing page)
+        element: <Home />,
       },
       {
         path: '/about',
-        element: <About />, // About Us page
+        element: <About />, 
       },
       {
         path: '/properties/:place',
-        element:<Properties />
+        element: <Properties />,
       },
       {
-        path: '/profile',
-        element: <PrivateRoute />, // Protect the profile route
+        path: '/listing',
+        element: <PrivateRoute allowedRoles={['seeker', 'host']} />,
+        children: [
+          { path: '', element: <Listing /> },
+        ],
+      },
+      
+      {
+        path: '/profile/:id', 
+        element: <PrivateRoute allowedRoles={['seeker', 'host']} />,
         children: [
           {
-            path: '/profile',
-            element: <Profile />, // Profile page
+            path: '', 
+            element: <Profile />,
+          },
+        ],
+      },
+      {
+        path: '/admin',
+        element: <PrivateRoute allowedRoles={['admin']} />, 
+        children: [
+          {
+            path: '/admin',
+            element: <AdminDashboard />,
           },
         ],
       },
       {
         path: '/login',
-        element: <Login />, // Login page
+        element: <Login />, 
       },
       {
         path: '/register',
@@ -59,7 +80,9 @@ const router = createBrowserRouter([
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <Provider  store={store}>
+      <PersistGate loading={null} persistor={persistor}>
     <RouterProvider router={router} />
+      </PersistGate>
     </Provider>
   </StrictMode>
 );

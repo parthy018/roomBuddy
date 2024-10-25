@@ -1,6 +1,6 @@
 // src/components/Container.jsx
 import PropTypes from 'prop-types';
-import Header from './Header';
+import Header from './Header/Header';
 const Container = ({ children }) => {
   return (
     <div className="w-full h-full relative ">

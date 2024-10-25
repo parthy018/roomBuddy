@@ -14,8 +14,9 @@ const Login = () => {
   const handleUserLogin = async (data) => {
     try {
       const userData = await login(data).unwrap(); 
+      console.log('Logged in successfully:', userData);
       dispatch(setCredentials(userData)); 
-      navigate('/profile'); 
+      navigate('/'); 
     } catch (err) {
       console.error('Failed to log in:', err); // Handle login error
     }

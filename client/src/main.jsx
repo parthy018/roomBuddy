@@ -41,9 +41,9 @@ const router = createBrowserRouter([
         element: <PrivateRoute allowedRoles={['seeker', 'host']} />,
         children: [
           { path: '', element: <Listing /> },
+          { path:'need-roommate', element:<ListingFields />},
         ],
       },
-      
       {
         path: '/profile/:id', 
         element: <PrivateRoute allowedRoles={['seeker', 'host']} />,
@@ -71,12 +71,7 @@ const router = createBrowserRouter([
       {
         path: '/register',
         element: <Register />,
-      },
-      {
-        path: '/listingFields',
-        element: <ListingFields />,
-      },
-
+      }
     ],
   },
 ]);

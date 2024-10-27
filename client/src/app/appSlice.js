@@ -1,4 +1,3 @@
-// apiSlice.js
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const baseUrl = "http://localhost:4000/api/auth";
@@ -20,36 +19,28 @@ export const apiSlice = createApi({
       query: (credentials) => ({
         url: "/login",
         method: "POST",
-        body: credentials
-      })
+        body: credentials,
+      }),
     }),
     register: builder.mutation({
       query: (userData) => ({
         url: "/register",
         method: "POST",
-        body: userData
-      })
+        body: userData,
+      }),
     }),
-    createProperty: builder.mutation({
+    needRoommate: builder.mutation({
       query: (propertyData) => ({
-        url: '/property/create',
+        url: '/listing/need-roommate',
         method: 'POST',
         body: propertyData,
       }),
     }),
-    // New query for fetching properties by location
-    getPropertiesByLocation: builder.query({
-      query: (location) => ({
-        url: `/properties?location=${location}`,
-        method: 'GET',
-      }),
-    }),
-  })
+  }),
 });
 
 export const {
   useLoginMutation,
   useRegisterMutation,
-  useCreatePropertyMutation,
-  useGetPropertiesByLocationQuery, // Export the new query hook
+  useNeedRoommateMutation,
 } = apiSlice;

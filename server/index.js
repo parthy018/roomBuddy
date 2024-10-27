@@ -3,6 +3,7 @@ const dotenv = require("dotenv");
 const connectDB = require("./config/connectDB");
 const authRoutes = require("./routes/user.routes");
 const cors = require("cors");
+const propertyRoute=require("./routes/property.route");
 
 dotenv.config();
 const app = express();
@@ -18,7 +19,8 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 app.use(express.json());
-app.use("/api/auth", authRoutes);
+app.use("/api/auth", authRoutes);   // TODO remove auth 
+app.use("/api/properties", propertyRoute);
 
 
 app.listen(PORT, async () => {

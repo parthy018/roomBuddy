@@ -8,15 +8,16 @@ import laundry from "../assets/listing/laundry.png";
 import ac from "../assets/listing/ac.png";
 import parking from "../assets/listing/parking.png";
 import power from "../assets/listing/power.png";
+import {useNeedRoommateMutation} from "../app/appSlice";
 
 const RoomDetailsForm = () => {
   const amenities = [
     { src: tv, label: "TV" },
     { src: fridge, label: "Fridge" },
     { src: kitchen, label: "Kitchen" },
-    { src: wifi, label: "WiFi" },
+    { src: wifi, label: "Wi-Fi" },
     { src: laundry, label: "Washing Machine" },
-    { src: ac, label: "AC" },
+    { src: ac, label: "Air Conditioning" },
     { src: power, label: "Power Backup" },
     { src: parking, label: "Parking" },
   ];
@@ -250,13 +251,12 @@ const RoomDetailsForm = () => {
           </label>
           <div className="flex flex-wrap gap-3">
             {[
-              "Attached washroom",
-              "Market nearby",
-              "Attached balcony",
-              "Close to metro station",
-              "Public transport nearby",
-              "Gated society",
-              "No Restriction",
+              "Attached washroom","Balcony", "Cafeteria",
+              "nearby market place","Close to metroline",
+              "public transport nearby","Gated society",
+              "No restiction","newly built","separate washroom",
+              "house keeping","Gym nearby", "park nearby",
+              "24/7 security", "Power backup",
             ].map((highlight) => (
               <button
                 key={highlight}

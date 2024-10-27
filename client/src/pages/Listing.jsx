@@ -1,8 +1,9 @@
 import flate from "../assets/flat.png";
 import friends from "../assets/friends.jpg";
-
+import {useNavigate} from "react-router-dom"
 const Listing = () => {
   console.log("Listing visited");
+  const navigate=useNavigate();
 
   return (
     <div className="w-full">
@@ -25,7 +26,8 @@ const Listing = () => {
           />
         </aside>
 
-        <aside className="w-full md:w-1/4 h-[350px] bg-[#dda15e] p-3 flex flex-col items-center rounded-sm">
+        <aside className="w-full md:w-1/4 h-[350px] bg-[#dda15e] p-3 flex flex-col items-center rounded-sm"
+        onClick={()=>{navigate("/listing/need-roommate")}}>
           <h3 className="text-2xl font-medium">Need a roommate</h3>
           <p className="text-md">for your flat/room <span><i className="ri-arrow-right-line"></i></span></p>
           <img

@@ -45,12 +45,11 @@ const AutoComplete = () => {
   };
 
   const handleSelect = (suggestion) => {
-    // Navigate to another page with the selected suggestion
     navigate(`/properties/${suggestion.replace(/\s+/g, "-").toLowerCase()}`);
-    // Clear input and suggestions
     setSearchTerm("");
     setSuggestions([]);
   };
+  
 
   return (
     <>

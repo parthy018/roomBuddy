@@ -1,22 +1,35 @@
+// userSlice.js
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-const baseUrl = "http://localhost:4000/api/auth";
+const baseUrl = "http://localhost:4000/api";
 
-export const userSlice= createApi({
-    reducerPath: 'user',
-    baseQuery: fetchBaseQuery({
-        baseUrl: baseUrl,
-        prepareHeaders: (headers, { getState }) => {
-            const token = getState().auth.token;
-            if (token) {
-              headers.set('authorization', `Bearer ${token}`);
-            }
-            return headers;
-          }
+export const userSlice = createApi({
+  reducerPath: 'user',
+  baseQuery: fetchBaseQuery({
+    baseUrl: baseUrl,
+    prepareHeaders: (headers, { getState, endpoint }) => {
+      // Do not add token for 'getPropertiesByLocation'
+      if (endpoint !== 'getPropertiesByLocation') {
+        const token = getState().auth.token;
+        if (token) {
+          headers.set('authorization', `Bearer ${token}`);
+        }
+      }
+      return headers;
+    }
+  }),
+  tagTypes: ['User'],
+  endpoints: (builder) => ({
+    getPropertiesByLocation: builder.query({
+      query: (location) => ({
+        url: `/properties/${location}`, 
+        method: 'GET',
+      }),
     }),
-    tagTypes: ['User'],
-    endpoints:(builder) => ({
-        
-    })
+  
+  })
 });
 
+export const {
+  useGetPropertiesByLocationQuery,
+} = userSlice;

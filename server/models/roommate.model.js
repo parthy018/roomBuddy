@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+const { propertyHighlights,amenities } = require('../utills/Enums');
 const roommateSchema = new mongoose.Schema({
     place: { type: String, required: true },
     description: { type: String, required: true },
@@ -18,6 +18,11 @@ const roommateSchema = new mongoose.Schema({
             },
             message: "Please select at least three highlights.",
         },
+    }],
+    amenities: [{
+        type: String,
+        enum: amenities,
+        required: true,
     }],
 }, { timestamps: true });
 

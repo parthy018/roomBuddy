@@ -151,7 +151,7 @@ const RoomDetailsForm = () => {
               Looking For
             </label>
             <div className="flex space-x-4">
-              {["Male", "Female", "Any"].map((option) => (
+              {["male", "female", "any"].map((option) => (
                 <button
                   type="button"
                   key={option}

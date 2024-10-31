@@ -21,7 +21,7 @@ const Header = () => {
           className="text-xl font-bold text-gray-800 cursor-pointer"
           onClick={() => navigate('/')}
         >
-          Flatmate
+          RoomBuddy
         </div>
 
         <nav className="hidden md:flex space-x-6">

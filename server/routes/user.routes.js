@@ -40,15 +40,15 @@ router.post('/login', asyncHandler(async (req, res) => {
 
 
 
-router.post('/listing/need-roommate',authMiddleware,upload.array('image',3), asyncHandler(async (req, res) => {
-    const {error}=roommateValidation.validate(req.body);
-    if(error){
-        return res.status(400).json({error:error.details[0].message});
-    }
-    if(req.files || req.files.length <1 || req.files.length >3){
-      return res.status(400).json({error:"Please upload 1 to 3 images"});
-    }
-    await createNeedRoommate(req,res);
-}))
+router.post('/listing/need-roommate', authMiddleware, upload.array('image', 3), asyncHandler(async (req, res) => {
+  const { error } = roommateValidation.validate(req.body);
+  if (error) {
+      return res.status(400).json({ error: error.details[0].message });
+  }
+  if (!req.files || req.files.length < 1 || req.files.length > 3) {
+      return res.status(400).json({ error: "Please upload 1 to 3 images" });
+  }
+  await createNeedRoommate(req, res);
+}));
 
 module.exports = router;

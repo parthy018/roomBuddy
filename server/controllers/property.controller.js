@@ -17,14 +17,16 @@ const getAllPropertiesbyPlace = async (req, res) => {
 
         // Apply optional query filters if they are present
         if (minRent) filter.rent = { $gte: parseInt(minRent) };
-        if (maxRent) filter.rent = { ...filter.rent, $lte: parseInt(maxRent) };
+        if (maxRent) filter.rent = filter.rent ? { ...filter.rent, $lte: parseInt(maxRent) } : { $lte: parseInt(maxRent) };
         if (gender) filter.lookingGender = gender;
 
+        // Query to find properties and populate owner details
         const properties = await Roommate.find(filter).populate({
             path: 'owner',
             select: 'name profilePicture role',
         }).select('place rent lookingGender');
 
+        // Check if properties were found
         if (!properties.length) {
             return sendErrorResponse(res, `No properties found for ${location}`, 404);
         }
@@ -41,14 +43,14 @@ const getAllPropertiesbyPlace = async (req, res) => {
 
         res.status(200).json({ success: true, data: responseData, message: `All properties for ${location}` });
     } catch (error) {
-        sendErrorResponse(res, 'Failed to fetch properties.');
+        sendErrorResponse(res, `Failed to fetch properties: ${error.message}`, 500); // Detailed error message
     }
 };
 
 
 const createNeedRoommate = async (req, res) => {
     try {
-        const { place, description, rent, owner, lookingGender, occupancy, highlights } = req.body;
+        const { place, description, rent, owner, lookingGender, occupancy, highlights, amenities } = req.body;
 
         // Construct the new roommate object
         const roommateData = {
@@ -58,12 +60,13 @@ const createNeedRoommate = async (req, res) => {
             owner,
             lookingGender,
             occupancy,
-            highlights
+            highlights,
+            amenities
         };
 
-        // Check if an image is uploaded
-        if (req.file) {
-            roommateData.image = req.file.path; // The path where Cloudinary stores the image
+        // Check if images are uploaded
+        if (req.files && req.files.length > 0) {
+            roommateData.images = req.files.map(file => file.path); // Store all image paths in an array
         }
 
         // Create and save the new roommate entry in the database

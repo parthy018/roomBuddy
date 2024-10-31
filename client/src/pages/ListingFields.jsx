@@ -1,4 +1,4 @@
-import  { useState } from "react";
+import { useState } from "react";
 import { FaCloudUploadAlt } from "react-icons/fa";
 import tv from "../assets/listing/tv.png";
 import fridge from "../assets/listing/fridge.png";
@@ -8,7 +8,7 @@ import laundry from "../assets/listing/laundry.png";
 import ac from "../assets/listing/ac.png";
 import parking from "../assets/listing/parking.png";
 import power from "../assets/listing/power.png";
-import {useNeedRoommateMutation} from "../app/appSlice";
+import { useNeedRoommateMutation } from "../app/appSlice";
 
 const RoomDetailsForm = () => {
   const amenities = [
@@ -21,7 +21,7 @@ const RoomDetailsForm = () => {
     { src: power, label: "Power Backup" },
     { src: parking, label: "Parking" },
   ];
-  
+
   const [location, setLocation] = useState("");
   const [rent, setRent] = useState("");
   const [selectedLookingFor, setSelectedLookingFor] = useState("Any");
@@ -31,6 +31,8 @@ const RoomDetailsForm = () => {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [selectedAmenities, setSelectedAmenities] = useState([]);
   const [isDragging, setIsDragging] = useState(false);
+
+  const [needRoommate] = useNeedRoommateMutation();
 
   const handleLocationChange = (e) => setLocation(e.target.value);
   const handleRentChange = (e) => setRent(e.target.value);
@@ -77,20 +79,29 @@ const RoomDetailsForm = () => {
     setDescription(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const formData = {
-      location,
-      rent,
-      lookingFor: selectedLookingFor,
-      occupancy: selectedOccupancy,
-      highlights: selectedHighlights,
-      amenities: selectedAmenities,
-      description,
-      files: selectedFiles,
-    };
-    console.log(formData);
-    // Form submission logic goes here
+    const formData = new FormData();
+    formData.append("place", location);
+    formData.append("rent", rent);
+    formData.append("lookingGender", selectedLookingFor);
+    formData.append("occupancy", selectedOccupancy);
+    formData.append("description", description);
+
+    selectedHighlights.forEach((highlight) =>
+      formData.append("highlights", highlight)
+    );
+    selectedAmenities.forEach((amenity) =>
+      formData.append("amenities", amenity)
+    );
+    selectedFiles.forEach((file) => formData.append("image", file));
+
+    try {
+      const response = await needRoommate(formData).unwrap();
+      console.log("Roommate listing created successfully:", response);
+    } catch (error) {
+      console.error("Failed to create roommate listing:", error);
+    }
   };
 
   return (
@@ -109,38 +120,32 @@ const RoomDetailsForm = () => {
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Add Your Location*
             </label>
-            <div className="flex items-center bg-gray-100 border border-gray-300 rounded-lg p-2">
-             
-              <input
-                type="text"
-                value={location}
-                onChange={handleLocationChange}
-                className="bg-gray-100 focus:outline-none w-full"
-                placeholder="Enter your location"
-
-              />
-            </div>
+            <input
+              type="text"
+              value={location}
+              onChange={handleLocationChange}
+              className="bg-gray-100 focus:outline-none w-full p-2 border border-gray-300 rounded-lg"
+              placeholder="Enter your location"
+            />
           </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Approx Rent*
             </label>
-            <div className="flex items-center bg-gray-100 border border-gray-300 rounded-lg p-2">
-             
-              <input
-                type="number"
-                value={rent}
-                onChange={handleRentChange}
-                className="bg-gray-100 focus:outline-none w-full"
-                placeholder="Rs:5000"
-              />
-            </div>
+            <input
+              type="number"
+              value={rent}
+              onChange={handleRentChange}
+              className="bg-gray-100 focus:outline-none w-full p-2 border border-gray-300 rounded-lg"
+              placeholder="Rs:5000"
+            />
           </div>
         </div>
 
         {/* Looking For and Occupancy */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+          {/* Looking For */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Looking For
@@ -163,6 +168,7 @@ const RoomDetailsForm = () => {
             </div>
           </div>
 
+          {/* Occupancy */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Occupancy
@@ -192,13 +198,11 @@ const RoomDetailsForm = () => {
             Upload 3 Photos of your room
           </label>
           <div
-            className={`border-2 rounded-lg p-6 text-center cursor-pointer transition-all 
-                    ${
-                      isDragging
-                        ? "border-blue-500 bg-blue-50"
-                        : "border-dashed border-gray-300"
-                    }
-                    hover:border-blue-400 hover:bg-blue-50`}
+            className={`border-2 rounded-lg p-6 text-center cursor-pointer transition-all ${
+              isDragging
+                ? "border-blue-500 bg-blue-50"
+                : "border-dashed border-gray-300"
+            } hover:border-blue-400 hover:bg-blue-50`}
             onDragEnter={handleDragEnter}
             onDragLeave={handleDragLeave}
             onDragOver={(e) => e.preventDefault()}
@@ -251,12 +255,21 @@ const RoomDetailsForm = () => {
           </label>
           <div className="flex flex-wrap gap-3">
             {[
-              "Attached washroom","Balcony", "Cafeteria",
-              "nearby market place","Close to metroline",
-              "public transport nearby","Gated society",
-              "No restiction","newly built","separate washroom",
-              "house keeping","Gym nearby", "park nearby",
-              "24/7 security", "Power backup",
+              "Attached washroom",
+              "Balcony",
+              "Cafeteria",
+              "nearby market place",
+              "Close to metroline",
+              "public transport nearby",
+              "Gated society",
+              "No restiction",
+              "newly built",
+              "separate washroom",
+              "house keeping",
+              "Gym nearby",
+              "park nearby",
+              "24/7 security",
+              "Power backup",
             ].map((highlight) => (
               <button
                 key={highlight}
@@ -285,9 +298,9 @@ const RoomDetailsForm = () => {
                 className={`flex flex-col w-10/12 h-10/12 items-center transition-transform  transform 
                    hover:bg-[#fbd24e]  hover:scale-110 ${
                     selectedAmenities.includes(amenity.label)
-                    ? "bg-blue-500 text-white"
-                    : "bg-gray-100 text-gray-700"
-                }`}
+                      ? "bg-blue-500 text-white"
+                      : "bg-gray-100 text-gray-700"
+                  }`}
                 onClick={() => toggleAmenity(amenity.label)}
               >
                 <img src={amenity.src} alt={amenity.label} className="w-4/12 h-4/12" />
@@ -296,10 +309,11 @@ const RoomDetailsForm = () => {
             ))}
           </div>
         </div>
-  
-       <div className="mt-8">
-         <h3 className="text-lg font-medium">Description</h3>
-         <textarea
+
+        {/* Description Section */}
+        <div className="mt-8">
+          <h3 className="text-lg font-medium">Description</h3>
+          <textarea
             value={description}
             onChange={handleDescriptionChange}
             placeholder="Write a description..."

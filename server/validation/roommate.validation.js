@@ -7,14 +7,14 @@ const roommateValidation = Joi.object({
     lookingGender:Joi.string().valid("male","female","Any").required(),
     occupancy:Joi.string().valid("Single","Shared","Any").required(),
     highlights: Joi.array().items(
-        Joi.string().valid(...propertyHighlights)
+        Joi.string()
     ).min(3).required().messages({
         'array.min': 'Please select at least three highlights.'
     }),
     amenities: Joi.array().items(
-        Joi.string().valid(...amenities)
+        Joi.string()  
     ).min(3).required().messages({
-        'array.min': 'Please select at least three highlights.'
+        'array.min': 'Please select at least three amenities.'
     }),
 
 });

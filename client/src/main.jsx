@@ -17,7 +17,7 @@ import Properties from './pages/Properties.jsx';
 import AdminDashboard from './dashboard/AdminDashboard.jsx';
 import Listing from './pages/Listing.jsx';
 import ListingFields from './pages/ListingFields.jsx';
-
+import Property from './pages/Property.jsx';
 // Create routes
 const router = createBrowserRouter([
   {
@@ -35,6 +35,14 @@ const router = createBrowserRouter([
       {
         path: '/properties/:location', 
         element: <Properties />,
+       
+      },
+      {
+        path:'/properties/:location/:id',
+        element: <PrivateRoute allowedRoles={['seeker', 'host']} />,
+        children: [
+          { path: '', element: <Property /> },
+        ],
       },
       {
         path: '/listing',

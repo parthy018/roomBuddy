@@ -12,7 +12,7 @@ const PrivateRoute = ({ allowedRoles }) => {
     return <Navigate to="/" replace />;
   }
 
-  return <Outlet />; // Render the child components
+  return <Outlet />; 
 };
 
 PrivateRoute.propTypes = {

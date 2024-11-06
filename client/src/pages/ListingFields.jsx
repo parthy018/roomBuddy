@@ -10,18 +10,20 @@ import parking from "../assets/listing/parking.png";
 import power from "../assets/listing/power.png";
 import { useNeedRoommateMutation } from "../app/appSlice";
 
+
 const RoomDetailsForm = () => {
   const amenities = [
     { src: tv, label: "TV" },
     { src: fridge, label: "Fridge" },
     { src: kitchen, label: "Kitchen" },
     { src: wifi, label: "Wi-Fi" },
-    { src: laundry, label: "Washing Machine" },
+    { src: laundry, label: "Laundry" },
     { src: ac, label: "Air Conditioning" },
     { src: power, label: "Power Backup" },
     { src: parking, label: "Parking" },
-  ];
-
+];
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   const [location, setLocation] = useState("");
   const [rent, setRent] = useState("");
   const [selectedLookingFor, setSelectedLookingFor] = useState("Any");
@@ -87,7 +89,6 @@ const RoomDetailsForm = () => {
     formData.append("lookingGender", selectedLookingFor);
     formData.append("occupancy", selectedOccupancy);
     formData.append("description", description);
-
     selectedHighlights.forEach((highlight) =>
       formData.append("highlights", highlight)
     );
@@ -95,14 +96,37 @@ const RoomDetailsForm = () => {
       formData.append("amenities", amenity)
     );
     selectedFiles.forEach((file) => formData.append("image", file));
-
+    const fdata=Object.fromEntries(formData);
+    console.log(fdata);
     try {
       const response = await needRoommate(formData).unwrap();
+      setSuccessMessage(response.message);
       console.log("Roommate listing created successfully:", response);
     } catch (error) {
+      setErrorMessage(error.message);
       console.error("Failed to create roommate listing:", error);
     }
   };
+
+  if(successMessage){
+    return (
+      <div className="p-10 mx-auto">
+        <h2 className="text-2xl font-semibold text-center mb-4">
+          {successMessage}
+        </h2>
+      </div>
+    );
+  }
+
+  if(errorMessage){
+    return (
+      <div className="p-10 mx-auto">
+        <h2 className="text-2xl font-semibold text-center mb-4">
+          {errorMessage}
+        </h2>
+      </div>
+    );
+  }
 
   return (
     <form onSubmit={handleSubmit} className="p-10 mx-auto">

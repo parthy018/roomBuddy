@@ -10,18 +10,11 @@ const roommateSchema = new mongoose.Schema({
     occupancy: { type: String, enum: ["Single", "Shared", "Any"], required: true },
     highlights: [{
         type: String,
-        enum: propertyHighlights,
         required: true,
-        validate: {
-            validator: function (value) {
-                return value.length >= 3;
-            },
-            message: "Please select at least three highlights.",
-        },
+        
     }],
     amenities: [{
         type: String,
-        enum: amenities,
         required: true,
     }],
 }, { timestamps: true });

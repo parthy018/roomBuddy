@@ -15,13 +15,13 @@ const Header = () => {
   };
 
   return (
-    <header className="w-full bg-white shadow-md sticky top-0">
+    <header className="w-full bg-white shadow-md sticky top-0 z-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
         <div
           className="text-xl font-bold text-gray-800 cursor-pointer"
           onClick={() => navigate('/')}
         >
-          Flatmate
+          RoomBuddy
         </div>
 
         <nav className="hidden md:flex space-x-6">

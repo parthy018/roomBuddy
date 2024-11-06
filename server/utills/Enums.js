@@ -17,10 +17,8 @@ const propertyHighlights=[
 ];
 
 const amenities = [
-    "Wi-Fi", "Parking", "Air Conditioning",
-    "Gym", "Swimming Pool", "Laundry",
-    "24/7 Security", "Power Backup", "Elevator",
-    "Housekeeping", "Furnished", "cook",
+    "Wi-Fi", "Parking", "Air Conditioning", "Gym", "Swimming Pool", 
+    "Laundry", "24/7 Security", "Power Backup", "Elevator", "Housekeeping", 
+    "Furnished", "cook", "Fridge", "Kitchen"
 ];
-
 module.exports = { propertyHighlights, amenities, userHighlights };

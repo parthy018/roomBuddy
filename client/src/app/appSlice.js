@@ -36,6 +36,20 @@ export const apiSlice = createApi({
         body: propertyData,
       }),
     }),
+    needRoom:builder.mutation({
+      query:(formData)=>({
+        url:'/listing/need-room',
+        method:'POST',
+        body:formData,
+      })
+    }),
+    getUser:builder.query({
+      query:()=>({
+        url:'/user',
+        method:'GET'
+      })
+    })
+
   }),
 });
 
@@ -43,4 +57,6 @@ export const {
   useLoginMutation,
   useRegisterMutation,
   useNeedRoommateMutation,
+  useNeedRoomMutation,
+  useGetUserQuery,
 } = apiSlice;

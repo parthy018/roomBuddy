@@ -1,6 +1,6 @@
 const Joi=require('joi');
-const {propertyHighlights, amenities} = require('../utills/Enums');
-const roommateValidation = Joi.object({
+
+ const roomValidation = Joi.object({
     place:Joi.string().required(),
     description:Joi.string().required(),
     rent:Joi.number().required(),
@@ -11,12 +11,8 @@ const roommateValidation = Joi.object({
     ).min(3).required().messages({
         'array.min': 'Please select at least three highlights.'
     }),
-    amenities: Joi.array().items(
-        Joi.string()  
-    ).min(3).required().messages({
-        'array.min': 'Please select at least three amenities.'
-    }),
+   
 
 });
+module.exports={roomValidation};
 
-module.exports={roommateValidation};

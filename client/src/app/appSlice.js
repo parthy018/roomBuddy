@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-const baseUrl = "http:room-buddy-seven.vercel.app/api/auth";
+const baseUrl = "https:room-buddy-seven.vercel.app/api/auth";
 
 export const apiSlice = createApi({
   reducerPath: 'api',

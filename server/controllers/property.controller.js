@@ -90,12 +90,12 @@ const getPropertyDetailById = async (req, res) => {
    try {
     const roommateProperty = await Roommate.findById(id).populate({
         path: 'owner',
-        select: 'name profilePicture role email gender',
+        select: 'name profilePicture role email gender -createdAt -updatedAt',
     });
 
     const roomProperty=await Room.findById(id).populate({
         path: 'owner',
-        select: 'name profilePicture role email gender',
+        select: 'name profilePicture role email gender -createdAt -updatedAt',
     });
 
     if(!roommateProperty && !roomProperty){

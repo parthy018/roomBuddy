@@ -22,7 +22,7 @@ app.use("/api/auth", authRoutes);   // TODO remove auth
 app.use("/api/properties", propertyRoute);
 
 app.get("/",(req,res)=>{
-  res.send("Welcome To roomBuddy backend");
+  res.json("Welcome to roombuddy backend");
 })
 
 app.listen(PORT, async () => {

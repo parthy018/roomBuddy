@@ -32,7 +32,8 @@ export const userSlice = createApi({
         url:`/properties/${location}/${id}`,
         method:'GET',
       })
-    })
+    }),
+  
   
   })
 });
@@ -40,4 +41,5 @@ export const userSlice = createApi({
 export const {
   useGetPropertiesByLocationQuery,
   useGetPropertyDetailByIdQuery,
+
 } = userSlice;

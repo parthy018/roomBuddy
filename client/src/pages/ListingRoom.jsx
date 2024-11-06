@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-
+import  { useState } from "react";
+import { useNeedRoomMutation } from "../app/appSlice";
 const ListingRoom = () => {
   const [formData, setFormData] = useState({
     location: "",
@@ -9,7 +9,9 @@ const ListingRoom = () => {
     description: "",
   });
   const [highlights, setHighlights] = useState([]);
-
+  const [successMessage,setSuccessMessage]=useState("");
+  const [errorMessage,setErrorMessage]=useState("");
+ const [needRoom]=useNeedRoomMutation();
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -33,17 +35,38 @@ const ListingRoom = () => {
     );
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit =async (e) => {
     e.preventDefault();
-    console.log("Form submitted:", { ...formData, highlights });
-    setFormData({
-      location: "",
-      rent: "",
-      lookingFor: "any",
-      occupancy: "Any",
-      description: "",
-    });
-    setHighlights([]);
+    if(highlights.length<=2){
+      alert("choose minimum three highlights");
+    }
+    const fData=new FormData();
+    fData.append('place',formData.location);
+    fData.append('description',formData.description);
+    fData.append('rent',formData.rent);
+    fData.append('lookingGender',formData.lookingFor);
+    fData.append('occupancy',formData.occupancy);
+    highlights.forEach((highlight)=>(
+      fData.append('highlights',highlight)
+    ))
+    console.log("FormData entries:", Array.from(fData.entries()));
+    try {
+      const response=await needRoom(fData).unwrap()
+      setSuccessMessage(response.message);
+      console.log("Roommate listing created successfully:", response);
+      setFormData({
+        location: "",
+        rent: "",
+        lookingFor: "any",
+        occupancy: "Any",
+        description: "",
+      });
+      setHighlights([]);
+    } catch (error) {
+      setErrorMessage(error.message);
+      console.error("Failed to create roommate listing:", error);
+    }
+   
   };
 
   const highlightOptions = [
@@ -60,6 +83,26 @@ const ListingRoom = () => {
     "Have 4 wheeler",
   ];
 
+  if(successMessage){
+    return (
+      <div className="p-10 mx-auto">
+        <h2 className="text-2xl font-semibold text-center mb-4">
+          {successMessage}
+        </h2>
+      </div>
+    );
+  }
+
+  if(errorMessage){
+    return (
+      <div className="p-10 mx-auto">
+        <h2 className="text-2xl font-semibold text-center mb-4">
+          {errorMessage}
+        </h2>
+      </div>
+    );
+  }
+
   return (
     <form onSubmit={handleSubmit} className="p-10 mx-auto">
       <div className="p-6 bg-white rounded-lg shadow-2xl max-w-5xl mx-auto">
@@ -73,12 +116,13 @@ const ListingRoom = () => {
         {/* Location and Rent */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="location">
               Add Your Location*
             </label>
             <input
               type="text"
               name="location"
+              id="location"
               value={formData.location}
               onChange={handleChange}
               className="bg-gray-100 focus:outline-none w-full p-2 border border-gray-300 rounded-lg"

@@ -25,7 +25,8 @@ const registerUser = async (req, res) => {
       name:user.name,
       token:token,
       role:user.role,
-      isListed:user.isListed
+      isListed:user.isListed,
+      profilePicture:user.profilePicture,
     }
 
     res.status(200).json({ success: true,data:dataResponse, message: "User registered successfully" });
@@ -68,7 +69,7 @@ const loginUser = async (req, res) => {
       token:token,
       role:user.role,
       isListed:user.isListed,
-      
+      profilePicture:user.profilePicture,
     }
 
     res.status(200).json({ success: true,data:dataResponse, message: roleMessages[user.role] || "Welcome back!" });
@@ -77,4 +78,22 @@ const loginUser = async (req, res) => {
   }
 };
 
-module.exports = { registerUser, loginUser };
+const getUserProfile = async (req, res) => {
+  try {
+     const id = req.user.userId;
+     // Await and pass the ID directly to findById
+     const user = await User.findById(id).select("email gender name");
+     
+     if (!user) {
+        return sendErrorResponse(res, `User not found`, 404);
+     }
+     
+     return res.status(200).json({ success: true, data: user });
+  } catch (error) {
+     console.error("Error at getUserProfile", error);
+     sendErrorResponse(res, error.message, 500);
+  }
+};
+
+
+module.exports = { registerUser, loginUser,getUserProfile };

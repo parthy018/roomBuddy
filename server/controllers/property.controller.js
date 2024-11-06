@@ -90,12 +90,12 @@ const getPropertyDetailById = async (req, res) => {
    try {
     const roommateProperty = await Roommate.findById(id).populate({
         path: 'owner',
-        select: 'name profilePicture role email gender -createdAt -updatedAt',
+        select: 'name profilePicture role email gender',
     });
 
     const roomProperty=await Room.findById(id).populate({
         path: 'owner',
-        select: 'name profilePicture role email gender -createdAt -updatedAt',
+        select: 'name profilePicture role email gender',
     });
 
     if(!roommateProperty && !roomProperty){
@@ -123,4 +123,30 @@ const getPropertyDetailById = async (req, res) => {
    }
 };
 
-module.exports = { getAllPropertiesbyPlace, createNeedRoommate,getPropertyDetailById };
+    const createNeedRoom= async (req,res)=>{
+        try {
+
+            const { place, description, rent ,lookingGender, occupancy, highlights } = req.body;
+        const seeker=req.user.userId;
+        const roomData={
+            place,
+            description,
+            rent,
+            seeker,
+            lookingGender,
+            occupancy,
+            highlights
+        };
+        const newRoom=new Room(roomData);
+        await newRoom.save();
+        res.status(200).json({message:"Room listed successfully"});
+            
+        } catch (error) {
+            console.error("error occuired during room lisiting   ",error);
+            res.status(500).json({ error: 'An error occurred while creating the room listing.', message: error.message });
+        }
+
+
+    }
+
+module.exports = { getAllPropertiesbyPlace, createNeedRoommate,getPropertyDetailById ,createNeedRoom};

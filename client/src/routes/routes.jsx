@@ -1,5 +1,5 @@
 // routes.js
-import React from 'react';
+
 import { createBrowserRouter } from 'react-router-dom';
 import App from '../App.jsx';
 import Home from '../pages/Home.jsx';
@@ -13,7 +13,6 @@ import Listing from '../pages/Listing.jsx';
 import ListingFields from '../pages/ListingFields.jsx';
 import AdminDashboard from '../dashboard/AdminDashboard.jsx';
 import PrivateRoute from '../PrivateRoute.jsx';
-import { element } from 'prop-types';
 import ListingRoom from '../pages/ListingRoom.jsx';
 
 // Define routes
@@ -23,7 +22,6 @@ const routes = [
     element: <App />,
     children: [
       { path: '/', element: <Home /> },
-      {path: '/listingroom', element:<ListingRoom/>},
       { path: '/about', element: <About /> },
       { path: '/login', element: <Login /> },
       { path: '/register', element: <Register /> },
@@ -39,10 +37,11 @@ const routes = [
         children: [
           { path: '', element: <Listing /> },
           { path: 'need-roommate', element: <ListingFields /> },
+          {path:'need-room',element:<ListingRoom />}
         ],
       },
       {
-        path: '/profile/:id',
+        path: '/user',
         element: <PrivateRoute allowedRoles={['seeker', 'host']} />,
         children: [{ path: '', element: <Profile /> }],
       },

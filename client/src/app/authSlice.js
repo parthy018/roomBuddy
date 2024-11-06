@@ -6,6 +6,7 @@ const initialState={
     isAuthenticated:false,
     role:null,
     isListed:false,
+    profilePicture:null,
 }
 
 const authSlice = createSlice({
@@ -13,12 +14,13 @@ const authSlice = createSlice({
     initialState,
     reducers:{
         setCredentials: (state, action) => {
-            const { name, token, role, isListed } = action.payload.data;
+            const { name, token, role, isListed,profilePicture} = action.payload.data;
             state.token = token;
             state.role = role;
             state.user = name;
             state.isListed = isListed;
             state.isAuthenticated = true;
+            state.profilePicture=profilePicture;
           },
           logOut: (state) => {
             state.token = null;
@@ -26,6 +28,8 @@ const authSlice = createSlice({
             state.user = null;
             state.isListed = false;
             state.isAuthenticated = false;
+            state.profilePicture=null;
+     
           },
     }
 });

@@ -14,6 +14,7 @@ import laundry from "../assets/listing/laundry.png";
 import ac from "../assets/listing/ac.png";
 import parking from "../assets/listing/parking.png";
 import power from "../assets/listing/power.png";
+import ProfileCard from "../components/card/ProfileCard";
 
 const Property = () => {
   //   const showAmenties = [
@@ -67,6 +68,7 @@ const Property = () => {
 
   return (
     <div className="w-11/12 mx-auto min-h-screen  py-10 grid grid-cols-1 sm:grid-cols-7 gap-4">
+     
       <div className="sm:col-span-5  order-1 sm:order-none h-auto border shadow-[0px_1px_4px_rgba(0,0,0,0.16)] p-5">
         <div className="w-full py-5  border-b-2">
           <h4 className="text-lg font-semibold text-slate-600 my-1 ">
@@ -186,8 +188,9 @@ const Property = () => {
         </div>
       </div>
 
-      <div className="sm:col-span-2 min-h-screen bg-blue-300 order-last sm:order-none">
-        <h1>hasdfhalkf</h1>
+      <div className="sm:col-span-2 min-h-screen  order-last sm:order-none">
+       <ProfileCard profilePicture={property?.owner?.profilePicture}  
+        name={property?.owner?.name} email={property?.owner?.email}/>
       </div>
     </div>
   );

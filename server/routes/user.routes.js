@@ -1,10 +1,11 @@
 const express = require('express');
-const { registerUser, loginUser } = require('../controllers/user.controller');
+const { registerUser, loginUser,getUserProfile } = require('../controllers/user.controller');
 const {userSchema,loginSchema} =require("../validation/auth.validation");
 const {roommateValidation}=require("../validation/roommate.validation");
+const {roomValidation}=require("../validation/room.validation");
 const asyncHandler = require('../middleware/asyncHandler');
-const { authMiddleware } = require('../middleware/auth.middleware');
-const {createNeedRoommate}=require("../controllers/property.controller");
+const { authMiddleware ,seekerAuthMiddleware} = require('../middleware/auth.middleware');
+const {createNeedRoommate,createNeedRoom}=require("../controllers/property.controller");
 const router = express.Router();
 const upload = require('../config/multerConfig');
 
@@ -50,5 +51,17 @@ router.post('/listing/need-roommate', authMiddleware, upload.array('image', 3), 
   }
   await createNeedRoommate(req, res);
 }));
+
+router.post('/listing/need-room',authMiddleware, seekerAuthMiddleware, upload.none(), asyncHandler(async (req,res)=>{
+  const {error}=roomValidation.validate(req.body);
+  if(error){
+    return res.status(400).json({error:error.details[0].message});
+  }
+  await createNeedRoom(req,res);
+}))
+
+router.get("/user",authMiddleware,asyncHandler(async(req,res)=>{
+  await getUserProfile(req,res);
+}))
 
 module.exports = router;

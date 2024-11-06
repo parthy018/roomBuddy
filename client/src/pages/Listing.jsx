@@ -16,7 +16,8 @@ const Listing = () => {
       </header>
 
       <section className="w-full min-h-96 flex flex-col md:flex-row space-y-6 md:space-y-0 md:space-x-6 items-center justify-center">
-        <aside className="w-full md:w-1/4 h-[350px] bg-[#94d2bd] p-3 flex flex-col items-center rounded-sm">
+        <aside className="w-full md:w-1/4 h-[350px] bg-[#94d2bd] p-3 flex flex-col items-center rounded-sm"
+        onClick={()=>navigate("/listing/need-room")}>
           <h3 className="text-2xl font-medium">Need a room/flat?</h3>
           <p>with roommate <span> <i className="ri-arrow-right-line"></i></span></p>
           <img

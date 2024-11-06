@@ -83,7 +83,7 @@ const Property = () => {
         </div>
         <div className="w-full py-5  border-b-2">
           <h4 className="text-lg font-semibold text-slate-700">Basic Info</h4>
-          <div className="w-full  sm:flex justify-between   py-3">
+          <div className="w-full  flex justify-between   py-3">
             <div className="">
               <h5 className="font-medium text-slate-500">Gender</h5>
               <p className=" flex items-center text-lg font-medium gap-1 text-slate-600">

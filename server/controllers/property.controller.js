@@ -83,4 +83,44 @@ const createNeedRoommate = async (req, res) => {
         res.status(500).json({ error: 'An error occurred while creating the roommate listing.', message: error.message });
     }
 };
-module.exports = { getAllPropertiesbyPlace, createNeedRoommate };
+
+const getPropertyDetailById = async (req, res) => {
+   const {id}=req.params;
+    
+   try {
+    const roommateProperty = await Roommate.findById(id).populate({
+        path: 'owner',
+        select: 'name profilePicture role email gender',
+    });
+
+    const roomProperty=await Room.findById(id).populate({
+        path: 'owner',
+        select: 'name profilePicture role email gender',
+    });
+
+    if(!roommateProperty && !roomProperty){
+        return sendErrorResponse(res, "Property details not found", 404);
+    }
+
+    if(roommateProperty){
+        return res.status(200).json({
+            success:true,
+            data:roommateProperty,
+           
+        });
+    }else{
+        return res.status(200).json({
+            success:true,
+            data:roomProperty,
+           
+        })
+    }
+
+    
+   } catch (error) {
+    console.log("id not found for property details ",error);
+    sendErrorResponse(res,`Failed to fetch properties: ${error.message}`, 500); 
+   }
+};
+
+module.exports = { getAllPropertiesbyPlace, createNeedRoommate,getPropertyDetailById };

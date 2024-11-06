@@ -11,7 +11,11 @@ import UserCard from "../components/UserCard";
 const Properties = () => {
   const { location } = useParams();
   const place = location.replace(/-/g, " ");
-  const { data: response, error, isLoading } = useGetPropertiesByLocationQuery(location);
+  const {
+    data: response,
+    error,
+    isLoading,
+  } = useGetPropertiesByLocationQuery(location);
   const data = response?.data;
 
   if (isLoading) {
@@ -26,9 +30,15 @@ const Properties = () => {
 
       <div className="w-full flex flex-col sm:flex-row gap-6 my-2 p-1 justify-between items-center border-b-2">
         <div className="flex gap-4 sm:gap-6 justify-center sm:justify-start">
-          <CategoryListing icon={<LuFileStack size={20} />} title="All Properties" />
+          <CategoryListing
+            icon={<LuFileStack size={20} />}
+            title="All Properties"
+          />
           <CategoryListing icon={<IoBedOutline size={20} />} title="Rooms" />
-          <CategoryListing icon={<IoPeopleOutline size={20} />} title="Roommates" />
+          <CategoryListing
+            icon={<IoPeopleOutline size={20} />}
+            title="Roommates"
+          />
           <CategoryListing icon={<BiBuildings size={20} />} title="PGs" />
         </div>
         <AutoComplete />
@@ -43,16 +53,17 @@ const Properties = () => {
       {data && data.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-6">
           {data.map((property) => (
-            <UserCard
-              key={property.id}
-              id={property.id}
-              username={property.username}
-              profilePicture={property.profilePicture}
-              lookingGender={property.lookingGender}
-              lookingFor={property.lookingFor}
-              place={property.place}
-              rent={property.rent}
-            />
+            <div key={property.id}>
+              <UserCard
+                id={property.id}
+                username={property.username}
+                profilePicture={property.profilePicture}
+                lookingGender={property.lookingGender}
+                lookingFor={property.lookingFor}
+                place={property.place}
+                rent={property.rent}
+              />
+            </div>
           ))}
         </div>
       ) : (

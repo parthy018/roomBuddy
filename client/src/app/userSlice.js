@@ -26,10 +26,18 @@ export const userSlice = createApi({
         method: 'GET',
       }),
     }),
+
+    getPropertyDetailById:builder.query({
+      query:({location,id})=>({
+        url:`/properties/${location}/${id}`,
+        method:'GET',
+      })
+    })
   
   })
 });
 
 export const {
   useGetPropertiesByLocationQuery,
+  useGetPropertyDetailByIdQuery,
 } = userSlice;

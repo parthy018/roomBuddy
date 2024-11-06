@@ -67,7 +67,7 @@ UserCard.propTypes = {
   lookingGender: PropTypes.string,
   lookingFor: PropTypes.string,
   place: PropTypes.string,
-  rent: PropTypes.string,
+  rent: PropTypes.number,
 };
 
 export default UserCard;

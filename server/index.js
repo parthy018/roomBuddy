@@ -21,6 +21,9 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);   // TODO remove auth 
 app.use("/api/properties", propertyRoute);
 
+app.get("/",(req,res)=>{
+  res.send("Welcome To roomBuddy backend");
+})
 
 app.listen(PORT, async () => {
   try {

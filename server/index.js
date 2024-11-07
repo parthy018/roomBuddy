@@ -3,30 +3,53 @@ const dotenv = require("dotenv");
 const connectDB = require("./config/connectDB");
 const authRoutes = require("./routes/user.routes");
 const cors = require("cors");
-const propertyRoute=require("./routes/property.route");
+const propertyRoute = require("./routes/property.route");
 
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 4000;
 
+// Define the allowed origins dynamically based on environment
+const allowedOrigins = [
+  "https://room-buddy-z6yx.vercel.app", 
+  "https://room-buddy-z6yx-i9vdk4oyg-parthy018s-projects.vercel.app", 
+  "http://localhost:5173"
+];
+
+// Configure CORS options to handle multiple origins and credentials
 const corsOptions = {
-  origin: process.env.NODE_ENV === "production" ? "https://room-buddy-z6yx.vercel.app" : "http://localhost:5173",
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   credentials: true, 
   optionsSuccessStatus: 200,
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], 
+  allowedHeaders: ["Content-Type", "Authorization"],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
 };
 
+// Apply CORS middleware with the options defined
 app.use(cors(corsOptions));
 
+// Add middleware to handle preflight OPTIONS requests
+app.options("*", cors(corsOptions));
+
+// Add middleware to parse JSON requests
 app.use(express.json());
-app.use("/api/auth", authRoutes);   // TODO remove auth 
+
+// Define routes
+app.use("/api/auth", authRoutes); 
 app.use("/api/properties", propertyRoute);
 
-app.get("/",(req,res)=>{
+// Root route
+app.get("/", (req, res) => {
   res.json("Welcome to roombuddy backend");
-})
+});
 
+// Start server and connect to database
 app.listen(PORT, async () => {
   try {
     await connectDB();

@@ -19,22 +19,23 @@ const allowedOrigins = [
 // Configure CORS options to handle multiple origins and credentials
 const corsOptions = {
   origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin)) {
+    if (!origin || allowedOrigins.includes(origin) || origin.endsWith(".vercel.app")) {
       callback(null, true);
     } else {
       callback(new Error("Not allowed by CORS"));
     }
   },
-  credentials: true, 
+  credentials: true,
   optionsSuccessStatus: 200,
   allowedHeaders: ["Content-Type", "Authorization"],
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
 };
 
+
 // Apply CORS middleware with the options defined
 app.use(cors(corsOptions));
 
-// Add middleware to handle preflight OPTIONS requests
+
 app.options("*", cors(corsOptions));
 
 // Add middleware to parse JSON requests

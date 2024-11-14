@@ -9,32 +9,17 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 4000;
 
-// Define the allowed origins dynamically based on environment
-const allowedOrigins = [
-  "https://room-buddy-z6yx.vercel.app", 
-  "https://room-buddy-z6yx-i9vdk4oyg-parthy018s-projects.vercel.app", 
-  "http://localhost:5173"
-];
-
-// Configure CORS options to handle multiple origins and credentials
+// Configure CORS to allow all origins
 const corsOptions = {
-  origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin) || origin.endsWith(".vercel.app")) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
+  origin: true, // Allow all origins
   credentials: true,
   optionsSuccessStatus: 200,
   allowedHeaders: ["Content-Type", "Authorization"],
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
 };
 
-
 // Apply CORS middleware with the options defined
 app.use(cors(corsOptions));
-
 
 app.options("*", cors(corsOptions));
 

@@ -9,41 +9,26 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 4000;
 
-// Define the allowed origins dynamically based on environment
-const allowedOrigins = [
-  "https://room-buddy-z6yx.vercel.app", 
-  "https://room-buddy-z6yx-i9vdk4oyg-parthy018s-projects.vercel.app", 
-  "http://localhost:5173"
-];
-
-// Configure CORS options to handle multiple origins and credentials
 const corsOptions = {
-  origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin) || origin.endsWith(".vercel.app")) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
+  origin: [
+      'http://localhost:5173', // For local development
+      'https://your-frontend-domain.com', // Your deployed frontend domain
+  ],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true,
-  optionsSuccessStatus: 200,
-  allowedHeaders: ["Content-Type", "Authorization"],
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ['Content-Type', 'Authorization'],
 };
 
-
-// Apply CORS middleware with the options defined
 app.use(cors(corsOptions));
 
 
-app.options("*", cors(corsOptions));
 
 // Add middleware to parse JSON requests
 app.use(express.json());
 
 // Define routes
-app.use("/api/auth", authRoutes); 
-app.use("/api/properties", propertyRoute);
+app.use("/api/auth", authRoutes);   
+app.use("/api/properties", propertyRoute);  
 
 // Root route
 app.get("/", (req, res) => {

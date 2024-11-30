@@ -1,7 +1,7 @@
 // userSlice.js
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-const baseUrl = "http://localhost:4000/api/properties";
+const baseUrl = "https://roombuddy.onrender.com/api/properties";
 
 export const userSlice = createApi({
   reducerPath: 'user',

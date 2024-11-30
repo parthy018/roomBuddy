@@ -9,16 +9,24 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 4000;
 
+const allowedOrigins = [
+  'http://localhost:5173', // Local development
+  'https://room-buddy-five.vercel.app', // Production domain
+  'https://room-buddy-1581ua0ax-parthy018s-projects.vercel.app', // Deployment URL for testing
+];
 const corsOptions = {
-  origin: [
-      'http://localhost:5173', // For local development
-      'https://your-frontend-domain.com', // Your deployed frontend domain
-  ],
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true,
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  origin: (origin, callback) => {
+    // Allow requests with no origin (like mobile apps or Postman) or explicitly defined origins
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true); // Allow the request
+    } else {
+      callback(new Error('Not allowed by CORS')); // Block the request
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // HTTP methods you want to allow
+  credentials: true, // Allow cookies and credentials
+  allowedHeaders: ['Content-Type', 'Authorization'], // Headers allowed in requests
 };
-
 app.use(cors(corsOptions));
 
 

@@ -9,7 +9,7 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 4000;
 
-const cors = require('cors');
+
 
 const allowedOrigins = [
   'http://localhost:5173', // Local development

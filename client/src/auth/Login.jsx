@@ -1,14 +1,17 @@
-import { EyeIcon, GoogleIcon } from '../assets/svgIcons/Svg';
+import {GoogleIcon } from '../assets/svgIcons/Svg';
 import { useForm } from 'react-hook-form';
+import { useState } from 'react';
 import {  useDispatch } from 'react-redux';
 import { setCredentials } from '../app/authSlice';
 import { useLoginMutation } from '../app/appSlice';
 import { useNavigate } from 'react-router-dom';
+import { FaEye,FaEyeSlash } from "react-icons/fa";
 
 const Login = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [login, { isLoading, error }] = useLoginMutation();
 
   const handleUserLogin = async (data) => {
@@ -42,11 +45,18 @@ const Login = () => {
             <div className="relative">
               <input
                 className="p-2 rounded-xl border w-full"
-                type="password"
+                type={isPasswordVisible ? 'text' : 'password'}
                 {...register('password', { required: true })}
                 placeholder="Password"
               />
-              <EyeIcon className="absolute top-1/3 right-3" />
+              {
+                isPasswordVisible ? (
+                  <FaEyeSlash className="absolute top-1/3 right-3" onClick={() => setIsPasswordVisible(false)} />
+                ) : (
+                  <FaEye className="absolute top-1/3 right-3" onClick={() => setIsPasswordVisible(true)} />
+                )
+              }
+              {/* <FaEye className="absolute top-1/3 right-3" /> */}
               {errors.password && <span>This field is required</span>}
             </div>
             <button

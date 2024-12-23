@@ -123,7 +123,7 @@ const getPropertyDetailById = async (req, res) => {
    }
 };
 
-    const createNeedRoom= async (req,res)=>{
+const createNeedRoom= async (req,res)=>{
         try {
 
             const { place, description, rent ,lookingGender, occupancy, highlights } = req.body;

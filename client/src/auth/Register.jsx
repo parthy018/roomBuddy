@@ -1,5 +1,4 @@
-import { EyeIcon,  GoogleIcon } from "../assets/svgIcons/Svg"; // Assume you have EyeOffIcon
-import { FaRegEyeSlash } from "react-icons/fa";
+import { GoogleIcon } from "../assets/svgIcons/Svg"; // Assume you have EyeOffIcon
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../app/authSlice";
@@ -10,6 +9,7 @@ import avataaars1 from "../assets/profile/avataaars1.png";
 import avataaars2 from "../assets/profile/avataaars2.png";
 import avataaars3 from "../assets/profile/avataaars3.png";
 import avataaars4 from "../assets/profile/avataaars4.png";
+import { FaEye,FaEyeSlash } from "react-icons/fa";
 
 const Register = () => {
   const {
@@ -70,15 +70,6 @@ const Register = () => {
       reader.readAsDataURL(file);
     }
   };
-
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword); // Toggle show/hide password
-  };
-
-  const toggleConfirmPasswordVisibility = () => {
-    setShowConfirmPassword(!showConfirmPassword); // Toggle show/hide confirm password
-  };
-
   return (
     <section className="min-h-[100] flex items-center justify-center">
       <div className="flex rounded-2xl max-w-5xl p-5 items-center border">
@@ -119,17 +110,19 @@ const Register = () => {
                   })}
                   placeholder="Password"
                 />
-                {showPassword ? (
-                  <FaRegEyeSlash
-                    onClick={togglePasswordVisibility}
-                    className="absolute top-1/3 right-3 cursor-pointer"
-                  />
-                ) : (
-                  <EyeIcon
-                    onClick={togglePasswordVisibility}
-                    className="absolute top-1/3 right-3 cursor-pointer"
-                  />
-                )}
+                {
+                  showPassword ? (
+                    <FaEyeSlash 
+                      onClick={()=>setShowPassword(false)}
+                      className="absolute top-1/3 right-3 cursor-pointer"
+                    />
+                  ) : (
+                    <FaEye
+                      onClick={()=>setShowPassword(true)}
+                      className="absolute top-1/3 right-3 cursor-pointer"
+                    />
+                  )
+                }
                 {errors.password && <span>{errors.password.message}</span>}
               </div>
 
@@ -144,20 +137,20 @@ const Register = () => {
                   })}
                   placeholder="Confirm Password"
                 />
-                {showConfirmPassword ? (
-                  <FaRegEyeSlash
-                    onClick={toggleConfirmPasswordVisibility}
-                    className="absolute top-1/3 right-3 cursor-pointer"
-                  />
-                ) : (
-                  <EyeIcon
-                    onClick={toggleConfirmPasswordVisibility}
-                    className="absolute top-1/3 right-3 cursor-pointer"
-                  />
-                )}
-                {errors.confirmPassword && (
-                  <span>{errors.confirmPassword.message}</span>
-                )}
+
+                  {
+                    showConfirmPassword?(
+                      <FaEyeSlash 
+                        onClick={()=>setShowConfirmPassword(false)}
+                        className="absolute top-1/3 right-3 cursor-pointer"
+                      />
+                    ) : (
+                      <FaEye
+                        onClick={()=>setShowConfirmPassword(true)}
+                        className="absolute top-1/3 right-3 cursor-pointer"
+                      />
+                    )
+                  }
               </div>
             </div>
 

@@ -9,6 +9,10 @@ const registerUser = async (req, res) => {
   // Use multer to handle the file upload
   try {
     const { name, email, password, role, gender, profilePicture } = req.body;
+
+    const existingUser = await User.findOne({ email });
+    if (existingUser) return sendErrorResponse(res, "User already exist", 409);
+
     const user = new User({
       name,
       email,
@@ -30,12 +34,9 @@ const registerUser = async (req, res) => {
     }
 
     res.status(200).json({ success: true,data:dataResponse, message: "User registered successfully" });
-
-    
   } catch (error) {
     sendErrorResponse(res, error.message, 500);
   }
- 
 };
 
 const loginUser = async (req, res) => {

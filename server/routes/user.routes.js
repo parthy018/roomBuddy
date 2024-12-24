@@ -1,5 +1,5 @@
 const express = require('express');
-const { registerUser, loginUser,getUserProfile } = require('../controllers/user.controller');
+const { registerUser, loginUser,getUserProfile,editUserProfile } = require('../controllers/user.controller');
 const {userSchema,loginSchema} =require("../validation/auth.validation");
 const {roommateValidation}=require("../validation/roommate.validation");
 const {roomValidation}=require("../validation/room.validation");
@@ -17,15 +17,34 @@ router.post('/register', upload.single('profilePicture'), asyncHandler(async (re
     role: req.body.role,
     gender: req.body.gender,
   });
+
+  // Validate user input
   if (error) {
     return res.status(400).json({ error: error.details[0].message });
   }
 
-  if (!req.file) {
+  // Check if profile picture exists
+  let profilePicture = req.body.profilePicture;
+
+  // If no file and no avatar URL, return an error
+  if (!profilePicture && !req.file) {
     return res.status(400).json({ error: 'Profile picture is required' });
   }
-  req.body.profilePicture = req.file.path; 
-  
+
+  // If there is a file, use Cloudinary URL as the profile picture
+  if (req.file) {
+    profilePicture = req.file.path; // Cloudinary URL
+  }
+
+  // If there's an avatar (URL string), use that as the profile picture
+  if (profilePicture && !req.file) {
+    // profilePicture is expected to be a string URL (e.g., from selected avatar)
+    console.log("Using selected avatar: ", profilePicture);
+  }
+
+  req.body.profilePicture = profilePicture;
+
+  // Proceed with user registration
   await registerUser(req, res);
 }));
 
@@ -62,6 +81,10 @@ router.post('/listing/need-room',authMiddleware, seekerAuthMiddleware, upload.no
 
 router.get("/user",authMiddleware,asyncHandler(async(req,res)=>{
   await getUserProfile(req,res);
+}))
+
+router.put("/user/editprofile",authMiddleware,asyncHandler(async(req,res)=>{
+  await editUserProfile(req,res);
 }))
 
 module.exports = router;

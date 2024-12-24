@@ -1,6 +1,8 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+// const baseUrl = import.meta.env.VITE_BACKEND_BASE_URL
 
 const baseUrl = "https://roombuddy.onrender.com/api/auth";
+// const baseUrl = "http://localhost:4000/api/auth";
 
 export const apiSlice = createApi({
   reducerPath: 'api',
@@ -49,6 +51,14 @@ export const apiSlice = createApi({
         method:'GET'
       })
     })
+    ,
+    editUser:builder.mutation({
+      query:(editUserData)=>({
+        url:'/user/editprofile',
+        method:'PUT',
+        body:editUserData
+      })
+    })
 
   }),
 });
@@ -59,4 +69,5 @@ export const {
   useNeedRoommateMutation,
   useNeedRoomMutation,
   useGetUserQuery,
+  useEditUserMutation
 } = apiSlice;

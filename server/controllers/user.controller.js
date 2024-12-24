@@ -3,15 +3,25 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const sendErrorResponse = require("../utills/sendErrorResponse");
 
-
 const registerUser = async (req, res) => {
-  console.log("req before upload ",req);
-  // Use multer to handle the file upload
+  console.log("req before upload ", req);
   try {
-    const { name, email, password, role, gender, profilePicture } = req.body;
+    const { name, email, password, role, gender } = req.body;
+
+    let profilePicture = req.body.profilePicture;  // This should either be a file path (Cloudinary URL) or an avatar URL string.
+
+    // If a file is uploaded, multer will store it in Cloudinary and set req.file
+    if (req.file) {
+      profilePicture = req.file.path;  // req.file.path contains the Cloudinary URL
+    }
+
+    // If no file is uploaded and there's a selected avatar, ensure the avatar URL is passed correctly
+    if (!profilePicture) {
+      return sendErrorResponse(res, "Profile picture is  required", 400);
+    }
 
     const existingUser = await User.findOne({ email });
-    if (existingUser) return sendErrorResponse(res, "User already exist", 409);
+    if (existingUser) return sendErrorResponse(res, "User already exists", 409);
 
     const user = new User({
       name,
@@ -19,21 +29,23 @@ const registerUser = async (req, res) => {
       password,
       role,
       gender,
-      profilePicture,
+      profilePicture,  // Store the URL or file path (Cloudinary URL)
     });
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(password, salt);
     await user.save();
-    const token = jwt.sign({ userId: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: "1h" });
-    const dataResponse={
-      name:user.name,
-      token:token,
-      role:user.role,
-      isListed:user.isListed,
-      profilePicture:user.profilePicture,
-    }
 
-    res.status(200).json({ success: true,data:dataResponse, message: "User registered successfully" });
+    const token = jwt.sign({ userId: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: "1h" });
+
+    const dataResponse = {
+      name: user.name,
+      token: token,
+      role: user.role,
+      isListed: user.isListed,
+      profilePicture: user.profilePicture,
+    };
+
+    res.status(200).json({ success: true, data: dataResponse, message: "User registered successfully" });
   } catch (error) {
     sendErrorResponse(res, error.message, 500);
   }
@@ -95,6 +107,25 @@ const getUserProfile = async (req, res) => {
      sendErrorResponse(res, error.message, 500);
   }
 };
+const editUserProfile= async (req,res) =>{
+  try{
+    const id = req.user.userId;
+  const {email,gender,name}=req.body;
+    const user =await User.findById(id);
+    if(!user){
+      return sendErrorResponse(res,"User not found",404);
+    }
+    user.email=email;
+    user.gender=gender;
+    user.name=name;
+    await user.save();
+    return res.json({message:"Profile updated successfully",user});
+  }
+  catch(error){
+    console.error("Error at editUserProfile",error);
+    sendErrorResponse(res,error.message,500);
+  }
+}
 
 
-module.exports = { registerUser, loginUser,getUserProfile };
+module.exports = { registerUser, loginUser,getUserProfile,editUserProfile };

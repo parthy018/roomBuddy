@@ -9,53 +9,68 @@ import avataaars1 from "../assets/profile/avataaars1.png";
 import avataaars2 from "../assets/profile/avataaars2.png";
 import avataaars3 from "../assets/profile/avataaars3.png";
 import avataaars4 from "../assets/profile/avataaars4.png";
-import { FaEye,FaEyeSlash } from "react-icons/fa";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Register = () => {
   const {
     register,
     handleSubmit,
+    setError,
+    clearErrors,
     formState: { errors },
     watch,
-  } = useForm();
+  } = useForm({
+    mode: "onChange", // Enable validation on change
+  });
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [registerUser, { isLoading, error }] = useRegisterMutation();
   const [selectedAvatar, setSelectedAvatar] = useState(null);
   const [uploadedImage, setUploadedImage] = useState(null);
-  
+
   const [showPassword, setShowPassword] = useState(false); // State for password visibility
   const [showConfirmPassword, setShowConfirmPassword] = useState(false); // State for confirm password visibility
   const password = watch("password");
 
+
+
+
   const handleUserRegister = async (data) => {
     try {
       console.log(data);
+  
       const formData = new FormData();
       formData.append("name", data.name);
       formData.append("email", data.email);
       formData.append("password", data.password);
       formData.append("role", data.role);
       formData.append("gender", data.gender);
-
-      if (uploadedImage) {
-        formData.append("profilePicture", uploadedImage);
-      } else if (selectedAvatar) {
-        formData.append("profilePicture", selectedAvatar);
+  
+      // Ensure that either avatar or image is provided
+      if (!selectedAvatar && !uploadedImage) {
+        setError("profilePicture", { type: "required", message: "Profile picture is required" });
+        return;
       }
-      const formDataObj = Array.isArray(formData) ? formData : Object.fromEntries(formData);
-
-      console.log(formDataObj);
+  
+      if (uploadedImage) {
+        console.log("Uploading image: ", uploadedImage);
+        formData.append("profilePicture", uploadedImage); // Appending file object
+      } else if (selectedAvatar) {
+        console.log("Using selected avatar: ", selectedAvatar);
+        formData.append("profilePicture", selectedAvatar); // Appending URL string
+      }
+  
       const response = await registerUser(formData).unwrap();
       dispatch(setCredentials(response));
-      navigate("/");
+      navigate("/");  // Redirect to home or dashboard
     } catch (err) {
       console.error("Registration failed:", err);
     }
   };
-
+  
   const handleAvatarSelect = (avatar) => {
     setSelectedAvatar(avatar);
+    clearErrors("profilePicture");
     setUploadedImage(null); // Clear uploaded image if an avatar is selected
   };
 
@@ -65,6 +80,7 @@ const Register = () => {
       const reader = new FileReader();
       reader.onloadend = () => {
         setUploadedImage(file);
+        clearErrors("profilePicture");
         setSelectedAvatar(null); // Clear selected avatar if a custom image is uploaded
       };
       reader.readAsDataURL(file);
@@ -87,18 +103,32 @@ const Register = () => {
               <input
                 className="p-2 rounded-xl border w-1/2"
                 type="text"
-                {...register("name", { required: "Username is required" })}
+                {...register("name", {
+                  required: "Username is required",
+                  minLength: {
+                    value: 3,
+                    message: "Username must be at least 3 characters",
+                  },
+                })}
                 placeholder="Username"
               />
               <input
                 className="p-2 rounded-xl border w-1/2"
                 type="email"
-                {...register("email", { required: "Email is required" })}
+                {...register("email", {
+                  required: "Email is required",
+                  pattern: {
+                    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                    message: "Invalid email address",
+                  },
+                })}
                 placeholder="Email"
               />
             </div>
-            {errors.name && <span>{errors.name.message}</span>}
-            {errors.email && <span>{errors.email.message}</span>}
+            {errors.name && (
+              <span className="text-red-500">{errors.name.message}</span>
+            )}
+            
 
             <div className="flex gap-4">
               <div className="relative w-1/2">
@@ -107,23 +137,29 @@ const Register = () => {
                   type={showPassword ? "text" : "password"}
                   {...register("password", {
                     required: "Password is required",
+                    minLength: {
+                      value: 6,
+                      message: "Password must be at least 6 characters",
+                    },
                   })}
                   placeholder="Password"
                 />
-                {
-                  showPassword ? (
-                    <FaEyeSlash 
-                      onClick={()=>setShowPassword(false)}
-                      className="absolute top-1/3 right-3 cursor-pointer"
-                    />
-                  ) : (
-                    <FaEye
-                      onClick={()=>setShowPassword(true)}
-                      className="absolute top-1/3 right-3 cursor-pointer"
-                    />
-                  )
-                }
-                {errors.password && <span>{errors.password.message}</span>}
+                {showPassword ? (
+                  <FaEyeSlash
+                    onClick={() => setShowPassword(false)}
+                    className="absolute top-1/3 right-3 cursor-pointer"
+                  />
+                ) : (
+                  <FaEye
+                    onClick={() => setShowPassword(true)}
+                    className="absolute top-1/3 right-3 cursor-pointer"
+                  />
+                )}
+                {errors.password && (
+                  <span className="text-red-500">
+                    {errors.password.message}
+                  </span>
+                )}
               </div>
 
               <div className="relative w-1/2">
@@ -132,25 +168,32 @@ const Register = () => {
                   type={showConfirmPassword ? "text" : "password"}
                   {...register("confirmPassword", {
                     required: "Confirm Password is required",
+                    minLength: {
+                      value: 6,
+                      message: "Password must be at least 6 characters",
+                    },
                     validate: (value) =>
                       value === password || "Passwords do not match",
                   })}
                   placeholder="Confirm Password"
                 />
 
-                  {
-                    showConfirmPassword?(
-                      <FaEyeSlash 
-                        onClick={()=>setShowConfirmPassword(false)}
-                        className="absolute top-1/3 right-3 cursor-pointer"
-                      />
-                    ) : (
-                      <FaEye
-                        onClick={()=>setShowConfirmPassword(true)}
-                        className="absolute top-1/3 right-3 cursor-pointer"
-                      />
-                    )
-                  }
+                {showConfirmPassword ? (
+                  <FaEyeSlash
+                    onClick={() => setShowConfirmPassword(false)}
+                    className="absolute top-1/3 right-3 cursor-pointer"
+                  />
+                ) : (
+                  <FaEye
+                    onClick={() => setShowConfirmPassword(true)}
+                    className="absolute top-1/3 right-3 cursor-pointer"
+                  />
+                )}
+                {errors.confirmPassword && (
+                  <span className="text-red-500">
+                    {errors.confirmPassword.message}
+                  </span>
+                )}
               </div>
             </div>
 
@@ -173,8 +216,17 @@ const Register = () => {
                 />
                 Female
               </label>
+              <label className="flex items-center gap-2">
+                <input
+                  type="radio"
+                  value="other"
+                  {...register("gender", { required: "Gender is required" })}
+                  className="form-radio"
+                />
+                Other
+              </label>
             </div>
-            {errors.gender && <span>{errors.gender.message}</span>}
+            {errors.gender && <span className="text-red-500">{errors.gender.message}</span>}
 
             <select
               className="p-2 rounded-xl border w-full mt-4"
@@ -184,7 +236,7 @@ const Register = () => {
               <option value="host">Host</option>
               <option value="seeker">Seeker</option>
             </select>
-            {errors.role && <span>{errors.role.message}</span>}
+            {errors.role && <span className="text-red-500">{errors.role.message}</span>}
 
             <div className="mt-4">
               <p className="text-sm mb-2">
@@ -199,7 +251,7 @@ const Register = () => {
                       alt={`Avatar ${index + 1}`}
                       className={`w-16 h-16 rounded-full cursor-pointer ${
                         selectedAvatar === avatar
-                          ? "border-2 border-blue-500"
+                          ? "border-4 border-blue-500"
                           : ""
                       }`}
                       onClick={() => handleAvatarSelect(avatar)}
@@ -223,8 +275,10 @@ const Register = () => {
                 />
               )}
             </div>
-
-            {errors.avatar && <span>{errors.avatar.message}</span>}
+            {errors.profilePicture && (
+          <span className="text-red-500">{errors.profilePicture.message}</span>
+        )}
+            {errors.avatar && <span className="text-red-500">{errors.avatar.message}</span>}
             <button className="bg-white hover:bg-slate-300 border py-2 w-full rounded-xl mt-5 flex justify-center items-center text-sm hover:scale-105 duration-300 text-[#002D74]">
               <GoogleIcon className="ml-4" />
               Register with Google

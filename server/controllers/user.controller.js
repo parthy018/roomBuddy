@@ -8,7 +8,7 @@ const registerUser = async (req, res) => {
   try {
     const { name, email, password, role, gender } = req.body;
 
-    let profilePicture = req.body.profilePicture;  // This should either be a file path (Cloudinary URL) or an avatar URL string.
+    let profilePicture = req.body.profilePicture || user.profilePicture;  // This should either be a file path (Cloudinary URL) or an avatar URL string.
 
     // If a file is uploaded, multer will store it in Cloudinary and set req.file
     if (req.file) {
@@ -108,16 +108,27 @@ const getUserProfile = async (req, res) => {
   }
 };
 const editUserProfile= async (req,res) =>{
+  console.log("req.body",req.body);
   try{
     const id = req.user.userId;
-  const {email,gender,name}=req.body;
     const user =await User.findById(id);
-    if(!user){
-      return sendErrorResponse(res,"User not found",404);
+  const {email,gender,name}=req.body;
+  let profilePicture = req.body.profilePicture||user.profilePicture; 
+  console.log("req.file",req.file);
+  console.log("profilePicture",profilePicture);
+  if (req.file) {
+    profilePicture = req.file.path;  // req.file.path contains the Cloudinary URL
+  }
+   
+    if (!user) {
+      console.error("User not found with ID:", id);
+      return res.status(404).json({ message: "User not found" });
     }
-    user.email=email;
-    user.gender=gender;
-    user.name=name;
+    // Update fields
+    user.email = email || user.email;
+    user.gender = gender || user.gender;
+    user.name = name || user.name;
+    user.profilePicture = profilePicture || user.profilePicture;
     await user.save();
     return res.json({message:"Profile updated successfully",user});
   }
@@ -129,3 +140,14 @@ const editUserProfile= async (req,res) =>{
 
 
 module.exports = { registerUser, loginUser,getUserProfile,editUserProfile };
+// "User validation failed: email: Path `email` is required., gender: Path `gender` is required., name: Path `name` is required., profilePicture: Path `profilePicture` is required."
+// [[Prototype]]
+// : 
+// Object
+// status
+// : 
+// 500
+// [[Prototype]]
+// : 
+// Object
+

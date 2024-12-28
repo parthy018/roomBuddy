@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { MdOutlineEmail } from "react-icons/md";
 
-const ProfileCard = ({ profilePicture, name, email }) => {
+const ProfileCard = ({ profilePicture, name, email,children }) => {
   return (
     <div
       className="
@@ -18,6 +18,7 @@ const ProfileCard = ({ profilePicture, name, email }) => {
         w-full
       "
     >
+    {children}
       <img
         src={profilePicture}
         alt="profile-picture"
@@ -34,13 +35,17 @@ const ProfileCard = ({ profilePicture, name, email }) => {
         "
         loading="lazy"
       />
+      
       <h4 className="text-lg md:text-xl lg:text-2xl font-semibold text-slate-700 mt-4">
         {name}
       </h4>
+      
       <div className="flex items-center justify-center gap-2 text-slate-600 text-sm md:text-base">
         <MdOutlineEmail />
+        
         <p className="font-regular">{email}</p>
       </div>
+      
     </div>
   );
 };

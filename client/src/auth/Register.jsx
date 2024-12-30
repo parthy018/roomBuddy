@@ -267,8 +267,11 @@ const Register = () => {
                 />
                 <div className="flex  gap-3 justify-start ">
                   <label className="flex gap-3 items-start" htmlFor="input-profile-image">
-                    <img className="w-8" src={profileImageUpload} alt="" />
-                  <p>choose profile picture</p>
+                    <img className="w-8 cursor-pointer" src={profileImageUpload} alt="" />
+                    {!uploadedImage && (
+                   <p>Choose Profile Picture</p>
+                )}
+                 
                   </label>
                 </div>
               </div>

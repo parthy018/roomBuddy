@@ -4,6 +4,10 @@ import ProfileCard from "../components/card/ProfileCard";
 import { useGetUserQuery, useEditUserMutation } from "../app/appSlice";
 import clsx from "clsx";
 import { MdOutlineModeEdit } from "react-icons/md";
+import avataaars1 from "../assets/profile/avataaars1.png";
+import avataaars2 from "../assets/profile/avataaars2.png";
+import avataaars3 from "../assets/profile/avataaars3.png";
+import avataaars4 from "../assets/profile/avataaars4.png";
 
 const Profile = () => {
   const { profilePicture } = useSelector((state) => state.auth);
@@ -11,6 +15,10 @@ const Profile = () => {
   const [setEditUser] = useEditUserMutation();
 
   const [isEditing, setIsEditing] = useState(false);
+  const [isImageEdit,setIsImageEdit]=useState(false);
+  const [selectedAvatar, setSelectedAvatar] = useState(null);
+  const [uploadedImage, setUploadedImage] = useState(null);
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -50,6 +58,28 @@ const Profile = () => {
       setIsEditing(false);
     } catch (error) {
       console.error("Profile update failed:", error);
+    }
+  };
+
+  
+  const handleProfileEdit = ()=>{
+    setIsImageEdit((prev)=>!prev);
+}
+
+
+  const handleAvatarSelect = (avatar) => {
+    setSelectedAvatar(avatar);
+    setUploadedImage(null); // Clear uploaded image if an avatar is selected
+  };
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setUploadedImage(file);
+        setSelectedAvatar(null); // Clear selected avatar if a custom image is uploaded
+      };
+      reader.readAsDataURL(file);
     }
   };
 
@@ -113,6 +143,9 @@ const Profile = () => {
           <div>
             <p className="text-md text-slate-700">Role</p>
             <h6 className="py-2 px-6 bg-[#fefce8] rounded-full">{role}</h6>
+            { isEditing && 
+              <span className="text-red-500">You cannot edit role redirectly.</span>
+            }
           </div>
           <div>
             <p className="text-md text-slate-700">Gender</p>
@@ -149,12 +182,60 @@ const Profile = () => {
           </div>
         </div>
       </div>
-      <div className="h-auto rounded-lg order-1 sm:order-none">
+      <div className="h-auto rounded-lg order-1 sm:order-none relative">
         <ProfileCard
           profilePicture={profilePicture}
           name={name}
           email={email}
-        />
+        >
+        {
+          isEditing &&
+          (
+            <MdOutlineModeEdit
+                className="cursor-pointer absolute right-24 top-8"
+                onClick={handleProfileEdit}
+              />
+          )
+        }
+        </ProfileCard>
+        {
+          isImageEdit && (
+              <div className="mt-4">
+                            <p className="text-sm mb-2">
+                              Choose an avatar or upload your image:
+                            </p>
+                            <div className="flex gap-4">
+                              {[avataaars1, avataaars2, avataaars3, avataaars4].map(
+                                (avatar, index) => (
+                                  <img
+                                    key={index}
+                                    src={avatar}
+                                    alt={`Avatar ${index + 1}`}
+                                    className={`w-16 h-16 rounded-full cursor-pointer`}
+                                    onClick={() => handleAvatarSelect(avatar)}
+                                  />
+                                )
+                              )}
+                            </div>
+              
+                            <div className="mt-4">
+                              <input
+                                type="file"
+                                accept="image/*"
+                                onChange={handleImageUpload}
+                              />
+                            </div>
+                            {uploadedImage && (
+                              <img
+                                src={URL.createObjectURL(uploadedImage)}
+                                alt="Uploaded"
+                                className="w-16 h-16 rounded-full mt-2"
+                              />
+                            )}
+                          </div>
+          )
+        }
+        
       </div>
     </div>
   );

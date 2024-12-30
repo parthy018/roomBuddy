@@ -10,6 +10,7 @@ import avataaars2 from "../assets/profile/avataaars2.png";
 import avataaars3 from "../assets/profile/avataaars3.png";
 import avataaars4 from "../assets/profile/avataaars4.png";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import profileImageUpload from '../assets/profile/upload_profile.png'
 
 const Register = () => {
   const {
@@ -31,9 +32,6 @@ const Register = () => {
   const [showPassword, setShowPassword] = useState(false); // State for password visibility
   const [showConfirmPassword, setShowConfirmPassword] = useState(false); // State for confirm password visibility
   const password = watch("password");
-
-
-
 
   const handleUserRegister = async (data) => {
     try {
@@ -91,7 +89,7 @@ const Register = () => {
       <div className="flex rounded-2xl max-w-5xl p-5 items-center border">
         <div className="md:w-1/2 px-8 md:px-16">
           <h2 className="font-bold text-2xl text-[#002D74]">Register</h2>
-          <p className="text-xs mt-4 text-[#002D74]">
+          <p className="text-xs mt-4 text-[#002D74] pb-2">
             Create a new account and start your journey
           </p>
 
@@ -261,11 +259,21 @@ const Register = () => {
               </div>
 
               <div className="mt-4">
-                <input
+                <input id='input-profile-image'
+                className="hidden"
                   type="file"
                   accept="image/*"
                   onChange={handleImageUpload}
                 />
+                <div className="flex  gap-3 justify-start ">
+                  <label className="flex gap-3 items-start" htmlFor="input-profile-image">
+                    <img className="w-8 cursor-pointer" src={profileImageUpload} alt="" />
+                    {!uploadedImage && (
+                   <p>Choose Profile Picture</p>
+                )}
+                 
+                  </label>
+                </div>
               </div>
               {uploadedImage && (
                 <img

@@ -87,7 +87,7 @@ const Login = () => {
 
           <div className="mt-3 text-xs flex justify-between items-center text-[#002D74]">
             <p>Don&apos;t have an account?</p>
-            <button className="py-2 px-5 border rounded-xl hover:scale-110 duration-300">
+            <button onClick={()=>navigate('/register')} className="py-2 px-5 border rounded-xl hover:scale-110 duration-300">
               Register
             </button>
           </div>

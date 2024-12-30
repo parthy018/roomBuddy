@@ -73,7 +73,7 @@ const ListingRoom = () => {
     "Working full time",
     "College student",
     "25+ age",
-    "<25 age",
+    "English speaking",
     "Working night shifts",
     "Will shift immediately",
     "Have pets",

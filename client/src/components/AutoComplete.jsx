@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { FaLocationDot } from "react-icons/fa6";
 
 const placesList = [
   "Vijay Nagar",
@@ -54,17 +55,22 @@ const AutoComplete = () => {
   return (
     <>
       <div className="autocomplete-container relative">
-        <input
-          type="text"
-          value={searchTerm}
-          onChange={handleChange}
-          placeholder="Search Places in Indore"
-          className="border p-2 rounded-[20px] w-full bg-[#f2f2f4] placeholder:text-[#7a7876] placeholder:pl-3 
-    transition-all duration-300 focus:scale-[1.05] focus:border-[#fb923c] focus:border-0 focus:outline-none 
-    focus:ring-2 focus:ring-[#d6ad8c] transform"
-          onFocus={(e) => e.target.classList.add("scale-[1.1]")}
-          onBlur={(e) => e.target.classList.remove("scale-[1.1]")}
-        />
+      <div className="relative w-full">
+      {/* Add the icon */}
+      <FaLocationDot
+        className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#7a7876] z-10"
+        size={20} // Adjust size if necessary
+      />
+      <input
+        type="text"
+        value={searchTerm}
+        onChange={handleChange}
+        placeholder="Search Places in Indore"
+        className="border ml-2 p-2 pl-10 rounded-[20px] w-full bg-[#f2f2f4] placeholder:text-[#7a7876] transition-all duration-300 focus:scale-[1.05] focus:border-[#fb923c] focus:border-0 focus:outline-none focus:ring-2 focus:ring-[#d6ad8c] transform"
+        onFocus={(e) => e.target.classList.add("scale-[1.1]")}
+        onBlur={(e) => e.target.classList.remove("scale-[1.1]")}
+      />
+    </div>
         {suggestions.length > 0 && (
           <ul
             className="suggestions-list mt-2 border rounded-md bg-white absolute w-full max-h-60 overflow-y-auto"
@@ -73,9 +79,10 @@ const AutoComplete = () => {
             {suggestions.map((suggestion, index) => (
               <li
                 key={index}
-                className="p-2 hover:bg-gray-200 cursor-pointer"
+                className="p-2 hover:bg-gray-200 flex items-center gap-4  cursor-pointer"
                 onClick={() => handleSelect(suggestion)}
               >
+                <FaLocationDot className="text-[#7a7876]" />
                 {suggestion}
               </li>
             ))}

@@ -15,15 +15,15 @@ import {
 const Footer = () => {
   return (
     <div>
-      <footer class="bg-gray-800">
-        <div class="max-w-screen-xl px-4 pt-16 pb-6 mx-auto sm:px-6 lg:px-8 lg:pt-24">
-          <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
+      <footer className="bg-gray-800">
+        <div className="max-w-screen-xl px-4 pt-16 pb-6 mx-auto sm:px-6 lg:px-8 lg:pt-24">
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
             <div>
-              <div class="flex justify-center text-teal-300 sm:justify-start">
+              <div className="flex justify-center text-teal-300 sm:justify-start">
                 {/* { room body logo in this place} */}
               </div>
 
-              <p class="max-w-md mx-auto mt-6 leading-relaxed text-center text-gray-400 sm:max-w-xs sm:mx-0 sm:text-left">
+              <p className="max-w-md mx-auto mt-6 leading-relaxed text-center text-gray-400 sm:max-w-xs sm:mx-0 sm:text-left">
                 Lorem ipsum dolor, sit amet consectetur adipisicing elit.
                 Incidunt consequuntur amet culpa cum itaque neque.
               </p>
@@ -91,15 +91,15 @@ const Footer = () => {
               </ul>
             </div>
 
-            <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:col-span-2 md:grid-cols-4">
-              <div class="text-center sm:text-left">
-                <p class="text-lg font-medium text-white">About Us</p>
+            <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:col-span-2 md:grid-cols-4">
+              <div className="text-center sm:text-left">
+                <p className="text-lg font-medium text-white">About Us</p>
 
-                <nav class="mt-8">
-                  <ul class="space-y-4 text-sm">
+                <nav className="mt-8">
+                  <ul className="space-y-4 text-sm">
                     <li>
                       <a
-                        class="text-white transition hover:text-white/75"
+                        className="text-white transition hover:text-white/75"
                         href="/"
                       >
                         Company History
@@ -108,7 +108,7 @@ const Footer = () => {
 
                     <li>
                       <a
-                        class="text-white transition hover:text-white/75"
+                        className="text-white transition hover:text-white/75"
                         href="/"
                       >
                         Meet the Team
@@ -117,7 +117,7 @@ const Footer = () => {
 
                     <li>
                       <a
-                        class="text-white transition hover:text-white/75"
+                        className="text-white transition hover:text-white/75"
                         href="/"
                       >
                         Employee Handbook
@@ -126,7 +126,7 @@ const Footer = () => {
 
                     <li>
                       <a
-                        class="text-white transition hover:text-white/75"
+                        className="text-white transition hover:text-white/75"
                         href="/"
                       >
                         Careers
@@ -136,14 +136,14 @@ const Footer = () => {
                 </nav>
               </div>
 
-              <div class="text-center sm:text-left">
-                <p class="text-lg font-medium text-white">Our Services</p>
+              <div className="text-center sm:text-left">
+                <p className="text-lg font-medium text-white">Our Services</p>
 
-                <nav class="mt-8">
-                  <ul class="space-y-4 text-sm">
+                <nav className="mt-8">
+                  <ul className="space-y-4 text-sm">
                     <li>
                       <a
-                        class="text-white transition hover:text-white/75"
+                        className="text-white transition hover:text-white/75"
                         href="/"
                       >
                         Web Development
@@ -152,7 +152,7 @@ const Footer = () => {
 
                     <li>
                       <a
-                        class="text-white transition hover:text-white/75"
+                        className="text-white transition hover:text-white/75"
                         href="/"
                       >
                         Web Design
@@ -161,7 +161,7 @@ const Footer = () => {
 
                     <li>
                       <a
-                        class="text-white transition hover:text-white/75"
+                        className="text-white transition hover:text-white/75"
                         href="/"
                       >
                         Marketing
@@ -170,7 +170,7 @@ const Footer = () => {
 
                     <li>
                       <a
-                        class="text-white transition hover:text-white/75"
+                        className="text-white transition hover:text-white/75"
                         href="/"
                       >
                         Google Ads
@@ -180,14 +180,14 @@ const Footer = () => {
                 </nav>
               </div>
 
-              <div class="text-center sm:text-left">
-                <p class="text-lg font-medium text-white">Helpful Links</p>
+              <div className="text-center sm:text-left">
+                <p className="text-lg font-medium text-white">Helpful Links</p>
 
-                <nav class="mt-8">
-                  <ul class="space-y-4 text-sm">
+                <nav className="mt-8">
+                  <ul className="space-y-4 text-sm">
                     <li>
                       <a
-                        class="text-white transition hover:text-white/75"
+                        className="text-white transition hover:text-white/75"
                         href="/"
                       >
                         FAQs
@@ -196,7 +196,7 @@ const Footer = () => {
 
                     <li>
                       <a
-                        class="text-white transition hover:text-white/75"
+                        className="text-white transition hover:text-white/75"
                         href="/"
                       >
                         Support
@@ -205,16 +205,16 @@ const Footer = () => {
 
                     <li>
                       <a
-                        class="flex group justify-center sm:justify-start gap-1.5"
+                        className="flex group justify-center sm:justify-start gap-1.5"
                         href="/"
                       >
-                        <span class="text-white transition group-hover:text-white/75">
+                        <span className="text-white transition group-hover:text-white/75">
                           Live Chat
                         </span>
 
-                        <span class="relative flex w-2 h-2 -mr-2">
-                          <span class="absolute inline-flex w-full h-full bg-teal-400 rounded-full opacity-75 animate-ping"></span>
-                          <span class="relative inline-flex w-2 h-2 bg-teal-500 rounded-full"></span>
+                        <span className="relative flex w-2 h-2 -mr-2">
+                          <span className="absolute inline-flex w-full h-full bg-teal-400 rounded-full opacity-75 animate-ping"></span>
+                          <span className="relative inline-flex w-2 h-2 bg-teal-500 rounded-full"></span>
                         </span>
                       </a>
                     </li>
@@ -222,8 +222,8 @@ const Footer = () => {
                 </nav>
               </div>
 
-              <div class="text-center sm:text-left">
-                <p class="text-lg font-medium text-white">Contact Us</p>
+              <div className="text-center sm:text-left">
+                <p className="text-lg font-medium text-white">Contact Us</p>
 
                 <ul className="mt-8 space-y-4 text-sm">
                   <li>
@@ -261,13 +261,13 @@ const Footer = () => {
             </div>
           </div>
 
-          <div class="pt-6 mt-12 border-t border-gray-800">
-            <div class="text-center sm:flex sm:justify-between sm:text-left">
-              <p class="text-sm text-gray-400">
-                <span class="block sm:inline">All rights reserved.</span>
+          <div className="pt-6 mt-12 border-t border-gray-800">
+            <div className="text-center sm:flex sm:justify-between sm:text-left">
+              <p className="text-sm text-gray-400">
+                <span className="block sm:inline">All rights reserved.</span>
 
                 <a
-                  class="inline-block text-teal-500 underline transition hover:text-teal-500/75"
+                  className="inline-block text-teal-500 underline transition hover:text-teal-500/75"
                   href="/"
                 >
                   Terms & Conditions
@@ -276,14 +276,14 @@ const Footer = () => {
                 <span>&middot;</span>
 
                 <a
-                  class="inline-block text-teal-500 underline transition hover:text-teal-500/75"
+                  className="inline-block text-teal-500 underline transition hover:text-teal-500/75"
                   href="/"
                 >
                   Privacy Policy
                 </a>
               </p>
 
-              <p class="mt-4 text-sm text-gray-500 sm:order-first sm:mt-0">
+              <p className="mt-4 text-sm text-gray-500 sm:order-first sm:mt-0">
                 &copy; 2022 Company Name
               </p>
             </div>

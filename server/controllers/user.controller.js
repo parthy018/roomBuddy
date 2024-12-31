@@ -108,27 +108,16 @@ const getUserProfile = async (req, res) => {
   }
 };
 const editUserProfile= async (req,res) =>{
-  console.log("req.body",req.body);
   try{
     const id = req.user.userId;
-    const user =await User.findById(id);
   const {email,gender,name}=req.body;
-  let profilePicture = req.body.profilePicture||user.profilePicture; 
-  console.log("req.file",req.file);
-  console.log("profilePicture",profilePicture);
-  if (req.file) {
-    profilePicture = req.file.path;  // req.file.path contains the Cloudinary URL
-  }
-   
-    if (!user) {
-      console.error("User not found with ID:", id);
-      return res.status(404).json({ message: "User not found" });
+    const user =await User.findById(id);
+    if(!user){
+      return sendErrorResponse(res,"User not found",404);
     }
-    // Update fields
-    user.email = email || user.email;
-    user.gender = gender || user.gender;
-    user.name = name || user.name;
-    user.profilePicture = profilePicture || user.profilePicture;
+    user.email=email;
+    user.gender=gender;
+    user.name=name;
     await user.save();
     return res.json({message:"Profile updated successfully",user});
   }
@@ -138,16 +127,49 @@ const editUserProfile= async (req,res) =>{
   }
 }
 
+const editProfileImage = async (req, res) => {
+  try {
+    const id = req.user.userId; // Extract the user ID from the request
 
-module.exports = { registerUser, loginUser,getUserProfile,editUserProfile };
-// "User validation failed: email: Path `email` is required., gender: Path `gender` is required., name: Path `name` is required., profilePicture: Path `profilePicture` is required."
-// [[Prototype]]
-// : 
-// Object
-// status
-// : 
-// 500
-// [[Prototype]]
-// : 
-// Object
+    // Check if the user exists
+    const user = await User.findById(id);
+    if (!user) {
+      return sendErrorResponse(res, "User not found", 404);
+    }
+
+    let profilePicture = req.body.profilePicture || user.profilePicture; // Default to the existing profile picture
+
+    // If a new file is uploaded, update the profile picture to the uploaded file's path
+    if (req.file) {
+      profilePicture = req.file.path; // req.file.path contains the Cloudinary URL or file path
+    }
+
+    // Ensure a profile picture is provided
+    if (!profilePicture) {
+      return sendErrorResponse(res, "Profile picture is required", 400);
+    }
+
+    // Update the user's profile picture
+    user.profilePicture = profilePicture;
+    await user.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "Profile picture updated successfully",
+      data: { profilePicture: user.profilePicture },
+    });
+  } catch (error) {
+    console.error("Error at editProfileImage", error);
+    sendErrorResponse(res, error.message, 500);
+  }
+};
+
+module.exports = { 
+  registerUser, 
+  loginUser, 
+  getUserProfile, 
+  editUserProfile, 
+  editProfileImage 
+};
+
 

@@ -58,6 +58,13 @@ export const apiSlice = createApi({
         method:'PUT',
         body:editUserData
       })
+    }),
+    changePassword:builder.mutation({
+      query:(passwordData)=>({
+        url:'/user/changeuserpassword',
+        method:'POST',
+        body:passwordData
+      })
     })
 
   }),
@@ -69,5 +76,6 @@ export const {
   useNeedRoommateMutation,
   useNeedRoomMutation,
   useGetUserQuery,
-  useEditUserMutation
+  useEditUserMutation,
+  useChangePasswordMutation
 } = apiSlice;

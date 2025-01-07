@@ -1,5 +1,5 @@
 const express = require('express');
-const { registerUser, loginUser,getUserProfile,editUserProfile } = require('../controllers/user.controller');
+const { registerUser, loginUser,getUserProfile,editUserProfile, changeUserPassword } = require('../controllers/user.controller');
 const {userSchema,loginSchema} =require("../validation/auth.validation");
 const {roommateValidation}=require("../validation/roommate.validation");
 const {roomValidation}=require("../validation/room.validation");
@@ -85,6 +85,10 @@ router.get("/user",authMiddleware,asyncHandler(async(req,res)=>{
 
 router.put("/user/editprofile",authMiddleware,asyncHandler(async(req,res)=>{
   await editUserProfile(req,res);
+}))
+
+router.post("/user/changeuserpassword",authMiddleware,asyncHandler(async(req,res)=>{
+  await changeUserPassword(req,res);
 }))
 
 module.exports = router;

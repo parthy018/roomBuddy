@@ -4,6 +4,7 @@ import ProfileCard from "../components/card/ProfileCard";
 import { useGetUserQuery, useEditUserMutation } from "../app/appSlice";
 import clsx from "clsx";
 import { MdOutlineModeEdit } from "react-icons/md";
+import PasswordChange from "../components/PasswordChange";
 
 const Profile = () => {
   const { profilePicture } = useSelector((state) => state.auth);
@@ -11,6 +12,7 @@ const Profile = () => {
   const [setEditUser] = useEditUserMutation();
 
   const [isEditing, setIsEditing] = useState(false);
+  const [isChangePassword,setIsChangePassword]=useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -155,6 +157,9 @@ const Profile = () => {
           </div>
         </div>
       </div>
+     
+      
+
       <div className="h-auto rounded-lg order-1 sm:order-none">
         <ProfileCard
           profilePicture={profilePicture}
@@ -162,6 +167,12 @@ const Profile = () => {
           email={email}
         />
       </div>
+      <div>
+        <button onClick={()=>setIsChangePassword((prev)=>!prev)}>{isChangePassword?"Change Password":"Update Password"}</button>
+        </div>
+        {isChangePassword && (
+        <PasswordChange setIsChangePassword={setIsChangePassword}/>
+      )}
     </div>
   );
 };

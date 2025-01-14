@@ -1,5 +1,5 @@
 const Joi=require('joi');
-const {propertyHighlights, amenities} = require('../utills/Enums');
+const {propertyHighlights, amenities} = require('../utils/Enums');
 const roommateValidation = Joi.object({
     place:Joi.string().required(),
     description:Joi.string().required(),

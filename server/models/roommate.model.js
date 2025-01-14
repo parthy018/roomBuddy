@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { propertyHighlights, amenities } = require("../utills/Enums");
+const { propertyHighlights, amenities } = require("../utils/Enums");
 const roommateSchema = new mongoose.Schema(
   {
     place: {

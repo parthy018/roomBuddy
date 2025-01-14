@@ -3,12 +3,11 @@ const dotenv = require("dotenv");
 const connectDB = require("./config/connectDB");
 const authRoutes = require("./routes/user.routes");
 const cors = require("cors");
-const propertyRoute = require("./routes/property.route");
+const propertyRoute = require("./routes/property.routes");
 
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 4000;
-
 
 
 const allowedOrigins = [

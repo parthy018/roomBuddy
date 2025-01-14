@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { userHighlights } = require("../utills/Enums");
+const { userHighlights } = require("../utils/Enums");
 
 const roomSchema = new mongoose.Schema(
   {

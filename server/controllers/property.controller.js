@@ -1,6 +1,6 @@
 // property.controller.js
 const Room = require('../models/Room.model');
-const sendErrorResponse = require('../utills/sendErrorResponse');
+const sendErrorResponse = require('../utils/sendErrorResponse');
 const Roommate=require("../models/roommate.model");
 
 const getAllPropertiesbyPlace = async (req, res) => {

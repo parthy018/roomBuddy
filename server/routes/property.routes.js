@@ -1,8 +1,11 @@
-const express = require("express");
-const { getAllPropertiesbyPlace,getPropertyDetailById} = require("../controllers/property.controller");
+import express from "express";
+import { getAllPropertiesbyPlace,getPropertyDetailById } from "../controllers/property.controller.js";
+import { authMiddleware } from "../middleware/auth.middleware.js";
+import asyncHandler from "../middleware/asyncHandler.js";
+
+
 const router = express.Router();
-const { authMiddleware } = require("../middleware/auth.middleware");
-const asyncHandler = require("../middleware/asyncHandler");
+
 router.get("/:location", getAllPropertiesbyPlace);
 
 router.get("/:location/:id", authMiddleware,asyncHandler(async (req, res) => {
@@ -10,4 +13,4 @@ router.get("/:location/:id", authMiddleware,asyncHandler(async (req, res) => {
     await getPropertyDetailById(req,res);
 }))
 
-module.exports = router;
+export default router;

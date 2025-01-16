@@ -1,14 +1,13 @@
-const User = require("../models/user.model");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const sendErrorResponse = require("../utils/sendErrorResponse");
+import User from "../models/user.model.js";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken"
 
 const registerUser = async (req, res) => {
   console.log("req before upload ", req);
   try {
     const { name, email, password, role, gender } = req.body;
 
-    let profilePicture = req.body.profilePicture || user.profilePicture; // This should either be a file path (Cloudinary URL) or an avatar URL string.
+    let profilePicture = req.body.profilePicture; // This should either be a file path (Cloudinary URL) or an avatar URL string.
 
     // If a file is uploaded, multer will store it in Cloudinary and set req.file
     if (req.file) {
@@ -214,7 +213,7 @@ const changeUserPassword = async (req, res) => {
   }
 };
 
-module.exports = {
+export {
   registerUser,
   loginUser,
   getUserProfile,

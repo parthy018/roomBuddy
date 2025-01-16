@@ -1,5 +1,6 @@
-const Joi=require('joi');
-const {propertyHighlights, amenities} = require('../utils/Enums');
+import Joi from "joi";
+import { propertyHighlights,amenities } from "../utils/Enums.js";
+
 const roommateValidation = Joi.object({
     place:Joi.string().required(),
     description:Joi.string().required(),
@@ -19,4 +20,4 @@ const roommateValidation = Joi.object({
 
 });
 
-module.exports={roommateValidation};
+export {roommateValidation};

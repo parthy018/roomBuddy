@@ -1,5 +1,6 @@
-const mongoose = require("mongoose");
-const { propertyHighlights, amenities } = require("../utils/Enums");
+import mongoose from "mongoose";
+import { propertyHighlights,amenities } from "../utils/Enums.js";
+
 const roommateSchema = new mongoose.Schema(
   {
     place: {
@@ -51,4 +52,4 @@ const roommateSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Roommate", roommateSchema);
+export default mongoose.model("Roommate", roommateSchema);

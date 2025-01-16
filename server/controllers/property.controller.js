@@ -1,7 +1,7 @@
 // property.controller.js
-const Room = require('../models/Room.model');
-const sendErrorResponse = require('../utills/sendErrorResponse');
-const Roommate=require("../models/roommate.model");
+import Room from "../models/Room.model.js";
+import sendErrorResponse from "../utils/sendErrorResponse.js";
+import Roommate from "../models/roommate.model.js";
 
 const getAllPropertiesbyPlace = async (req, res) => {
     const location = req.params.location.replace(/-/g, " "); 
@@ -149,4 +149,4 @@ const createNeedRoom= async (req,res)=>{
 
     }
 
-module.exports = { getAllPropertiesbyPlace, createNeedRoommate,getPropertyDetailById ,createNeedRoom};
+export { getAllPropertiesbyPlace, createNeedRoommate,getPropertyDetailById ,createNeedRoom};

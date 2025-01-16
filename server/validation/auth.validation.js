@@ -1,6 +1,4 @@
-const Joi = require('joi');
-
-
+import Joi from "joi";
 
 const emailValidation = Joi.string().email().required().messages({
   'string.email': 'Email is invalid',
@@ -38,4 +36,4 @@ const loginSchema = Joi.object({
 
 
 
-module.exports = { loginSchema, userSchema }  
+export { loginSchema, userSchema };

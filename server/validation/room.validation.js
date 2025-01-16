@@ -1,4 +1,4 @@
-const Joi=require('joi');
+import Joi from "joi";
 
  const roomValidation = Joi.object({
     place:Joi.string().required(),
@@ -14,5 +14,5 @@ const Joi=require('joi');
    
 
 });
-module.exports={roomValidation};
+export {roomValidation};
 

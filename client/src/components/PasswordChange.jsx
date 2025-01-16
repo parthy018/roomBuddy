@@ -52,7 +52,7 @@ const PasswordChange = ({ setIsChangePassword }) => {
     try {
       await changePassword(passwordChangeData).unwrap();
       toast.success("Password changed successfully", {
-        position: "top-center",
+        position: "right-center",
       });
       setIsChangePassword(false);
     } catch (error) {

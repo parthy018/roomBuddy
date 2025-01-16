@@ -1,14 +1,14 @@
-const express = require('express');
-const { registerUser, loginUser,getUserProfile,editUserProfile, changeUserPassword } = require('../controllers/user.controller');
-const {userSchema,loginSchema} =require("../validation/auth.validation");
-const {roommateValidation}=require("../validation/roommate.validation");
-const {roomValidation}=require("../validation/room.validation");
-const asyncHandler = require('../middleware/asyncHandler');
-const { authMiddleware ,seekerAuthMiddleware} = require('../middleware/auth.middleware');
-const {createNeedRoommate,createNeedRoom}=require("../controllers/property.controller");
-const router = express.Router();
-const upload = require('../config/multerConfig');
+import express from "express";
+import { registerUser, loginUser,getUserProfile,editUserProfile, changeUserPassword } from "../controllers/user.controller.js";
+import { userSchema,loginSchema } from "../validation/auth.validation.js";
+import { roommateValidation } from "../validation/roommate.validation.js";
+import { roomValidation } from "../validation/room.validation.js";
+import asyncHandler from "../middleware/asyncHandler.js";
+import { authMiddleware,seekerAuthMiddleware } from "../middleware/auth.middleware.js";
+import { createNeedRoom,createNeedRoommate } from "../controllers/property.controller.js";
+import upload from "../config/multerConfig.js";
 
+const router = express.Router();
 router.post('/register', upload.single('profilePicture'), asyncHandler(async (req, res) => {
   const { error } = userSchema.validate({
     name: req.body.name,
@@ -69,6 +69,9 @@ router.post('/listing/need-roommate', authMiddleware, upload.array('image', 3), 
       return res.status(400).json({ error: "Please upload 1 to 3 images" });
   }
   await createNeedRoommate(req, res);
+
+
+
 }));
 
 router.post('/listing/need-room',authMiddleware, seekerAuthMiddleware, upload.none(), asyncHandler(async (req,res)=>{
@@ -91,4 +94,4 @@ router.post("/user/changeuserpassword",authMiddleware,asyncHandler(async(req,res
   await changeUserPassword(req,res);
 }))
 
-module.exports = router;
+export default router;

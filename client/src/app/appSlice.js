@@ -1,8 +1,8 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 // const baseUrl = import.meta.env.VITE_BACKEND_BASE_URL
 
-// const baseUrl = "https://roombuddy.onrender.com/api/auth";
-const baseUrl = "http://localhost:4000/api/auth";
+const baseUrl = "https://roombuddy.onrender.com/api/auth";
+// const baseUrl = "http://localhost:4000/api/auth";
 
 export const apiSlice = createApi({
   reducerPath: "api",

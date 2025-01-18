@@ -1,9 +1,11 @@
 import User from "../models/user.model.js";
 import bcrypt from "bcrypt";
+
 import jwt from "jsonwebtoken";
 import sendErrorResponse from "../utils/sendErrorResponse.js";
 import { generateOTP, sendOTPEmail } from "../config/nodemailer.config.js";
 import OTPModel from "../models/otp.model.js";
+
 
 
 const registerUser = async (req,res)=>{

@@ -5,6 +5,7 @@ import authRoutes from "./routes/user.routes.js";
 import cors from "cors";
 import propertyRoute from "./routes/property.routes.js";
 
+
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 8000;

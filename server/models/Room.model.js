@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import { userHighlights } from "../utils/Enums.js"
 
+
 const roomSchema = new mongoose.Schema(
   {
     place: {

@@ -2,8 +2,10 @@ import homeImg from "../assets/homeImg.png";
 import rentAggrement from "../assets/rentAggrement.svg";
 import eqaro from "../assets/eqaro.svg";
 import Autocomplete from "../components/AutoComplete";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const navigate = useNavigate()
   const places = [
     {
       name: "Khajrana",
@@ -73,6 +75,9 @@ const Home = () => {
         <div className="w-full sm:w-2/3 lg:w-1/2 mx-auto mt-4">
           <Autocomplete />
         </div>
+        <div onClick={()=>navigate('/all-rooms')} className="mt-1 cursor-pointer py-2 px-4 outline-none rounded-[30px] bg-[#f49d0c] capitalize hover:bg-[#d59041] transition-colors text-white text-bold">
+          Show All Rooms
+        </div>
         <img
           src={homeImg}
           alt="Example"
@@ -129,25 +134,27 @@ const Home = () => {
 
       {/* View Places Section */}
       <div className="w-full min-h-screen bg-[#F9FAFB] flex flex-col items-center p-20">
-      <h1 className="text-5xl font-medium mb-20 text-center">
-        View Rooms In Popular Places
-      </h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 w-full max-w-6xl">
-        {places.map((place, index) => (
-          <div key={index} className="shadow-md rounded-lg overflow-hidden relative">
-            <img
-              src={place.imgUrl}
-              alt={place.name}
-              className="w-full h-40 object-cover transition-transform duration-300 hover:scale-110"
-            />
-            <div className="absolute bottom-0 left-0 w-full bg-opacity-50 text-xl font-bold text-white text-center p-2">
-              {place.name}
+        <h1 className="text-5xl font-medium mb-20 text-center">
+          View Rooms In Popular Places
+        </h1>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 w-full max-w-6xl">
+          {places.map((place, index) => (
+            <div
+              key={index}
+              className="shadow-md rounded-lg overflow-hidden relative"
+            >
+              <img
+                src={place.imgUrl}
+                alt={place.name}
+                className="w-full h-40 object-cover transition-transform duration-300 hover:scale-110"
+              />
+              <div className="absolute bottom-0 left-0 w-full bg-opacity-50 text-xl font-bold text-white text-center p-2">
+                {place.name}
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-      
-    </div>
     </div>
   );
 };

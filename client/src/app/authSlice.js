@@ -31,7 +31,7 @@ const authSlice = createSlice({
             state.profilePicture=null;
      
           },
-    }
+    },
 });
 
 export const { setCredentials, logOut } = authSlice.actions;

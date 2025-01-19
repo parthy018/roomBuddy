@@ -187,7 +187,7 @@ const changeUserPassword = async (req, res) => {
       return sendErrorResponse(res, "User not found", 404);
     }
     if (new_password !== confirm_new_password) {
-      return sendErrorResponse(
+      return sendErrorRespon(
         res,
         "New password and confirm new password are not match",409
       );

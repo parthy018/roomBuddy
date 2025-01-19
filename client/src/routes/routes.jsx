@@ -14,6 +14,7 @@ import ListingFields from '../pages/ListingFields.jsx';
 import AdminDashboard from '../dashboard/AdminDashboard.jsx';
 import PrivateRoute from '../PrivateRoute.jsx';
 import ListingRoom from '../pages/ListingRoom.jsx';
+import AllRooms from '../pages/AllRooms.jsx';
 
 // Define routes
 const routes = [
@@ -23,6 +24,7 @@ const routes = [
     children: [
       { path: '/', element: <Home /> },
       { path: '/about', element: <About /> },
+      { path: '/all-rooms', element: <AllRooms /> },
       { path: '/login', element: <Login /> },
       { path: '/register', element: <Register /> },
       { path: '/properties/:location', element: <Properties /> },

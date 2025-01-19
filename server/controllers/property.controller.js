@@ -1,7 +1,8 @@
 // property.controller.js
+
 import Room from "../models/Room.model.js";
 import sendErrorResponse from "../utils/sendErrorResponse.js";
-import Roommate from "../models/roommate.model.js";
+
 
 const getAllPropertiesbyPlace = async (req, res) => {
     const location = req.params.location.replace(/-/g, " "); 

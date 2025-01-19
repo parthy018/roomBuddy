@@ -1,27 +1,86 @@
 import User from "../models/user.model.js";
 import bcrypt from "bcrypt";
+
 import jwt from "jsonwebtoken";
 import sendErrorResponse from "../utils/sendErrorResponse.js";
+import { generateOTP, sendOTPEmail } from "../config/nodemailer.config.js";
+import OTPModel from "../models/otp.model.js";
 
-const registerUser = async (req, res) => {
-  console.log("req before upload ", req);
+
+
+const registerUser = async (req,res)=>{
   try {
-    const { name, email, password, role, gender } = req.body;
-
-    let profilePicture = req.body.profilePicture; // This should either be a file path (Cloudinary URL) or an avatar URL string.
-
-    // If a file is uploaded, multer will store it in Cloudinary and set req.file
-    if (req.file) {
-      profilePicture = req.file.path; // req.file.path contains the Cloudinary URL
-    }
-
-    // If no file is uploaded and there's a selected avatar, ensure the avatar URL is passed correctly
-    if (!profilePicture) {
-      return sendErrorResponse(res, "Profile picture is  required", 400);
-    }
+    const { email } = req.body;
 
     const existingUser = await User.findOne({ email });
+    console.log("existingUser",existingUser);
     if (existingUser) return sendErrorResponse(res, "User already exists", 409);
+
+    // Generate OTP and expiration time
+    const otp = generateOTP();
+    const otpExpiresAt = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes from now
+
+
+    // Send OTP to user's email
+    await sendOTPEmail(email, otp);
+
+    // Save OTP
+    await OTPModel.create({
+      email,
+      otp,
+      otpExpiresAt
+    })
+
+    res.status(200).json({
+      success: true,
+      message: "OTP sent to your email. Please verify to complete registration.",
+    });
+
+  } catch (error) {
+    console.log("error in register catch",error)
+    sendErrorResponse(res, error.message, 500);
+  }
+}
+
+const verifyOTP = async (req, res) => {
+  console.log("req before upload ", req);
+  try {
+    const { name, email, password, role, gender,otp } = req.body;
+
+    const tempUser = await OTPModel.findOne({email});
+    console.log("tempppppppppp User",tempUser,email);
+    
+    console.log("otp",otp,tempUser.otp);
+    
+    if (tempUser.otp !== otp || tempUser.otpExpiresAt < new Date()) {
+      return sendErrorResponse(res, "Invalid or expired OTP", 400);
+    }
+    
+    if (!tempUser) return sendErrorResponse(res, "User not found", 404);
+
+    // Check if profile picture exists
+    let profilePicture = req.body.profilePicture;
+
+    // If no file and no avatar URL, return an error
+    if (!profilePicture && !req.file) {
+      return res.status(400).json({ error: "Profile picture is required" });
+    }
+
+    // If there is a file, use Cloudinary URL as the profile picture
+    if (req.file) {
+      profilePicture = req.file.path; // Cloudinary URL
+    }
+
+    // If there's an avatar (URL string), use that as the profile picture
+    if (profilePicture && !req.file) {
+      // profilePicture is expected to be a string URL (e.g., from selected avatar)
+      console.log("Using selected avatar: ", profilePicture);
+    }
+
+    req.body.profilePicture = profilePicture;
+
+
+    await OTPModel.deleteOne({email}); 
 
     const user = new User({
       name,
@@ -55,9 +114,11 @@ const registerUser = async (req, res) => {
       message: "User registered successfully",
     });
   } catch (error) {
+    console.log("error in verify catch",error);    
     sendErrorResponse(res, error.message, 500);
   }
 };
+
 
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
@@ -179,7 +240,7 @@ const changeUserPassword = async (req, res) => {
     // const userId = req.user.userId;
     const userId = req.user.userId;
 
-    if (!old_password || !new_password ||  !confirm_new_password) {
+    if (!old_password || !new_password || !confirm_new_password) {
       return sendErrorResponse(res, "All fields are required", 400);
     }
     const user = await User.findById(userId);
@@ -189,7 +250,8 @@ const changeUserPassword = async (req, res) => {
     if (new_password !== confirm_new_password) {
       return sendErrorRespon(
         res,
-        "New password and confirm new password are not match",409
+        "New password and confirm new password are not match",
+        409
       );
     }
 
@@ -216,6 +278,7 @@ const changeUserPassword = async (req, res) => {
 
 export {
   registerUser,
+  verifyOTP,
   loginUser,
   getUserProfile,
   editUserProfile,

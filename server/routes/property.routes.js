@@ -15,6 +15,8 @@ router.get("/:location/:id", authMiddleware,asyncHandler(async (req, res) => {
 }))
 
 
+
 router.get("/seeker/room/showallrooms", authMiddleware, showAllRooms);
 
 export default router;
+

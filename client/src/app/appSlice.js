@@ -31,6 +31,14 @@ export const apiSlice = createApi({
         body: userData,
       }),
     }),
+    verifyOTP: builder.mutation({
+      query: (otpData) => ({
+        url: "/verifyOTP",
+        method: "POST",
+        body: otpData,
+      }),
+    }),
+
     needRoommate: builder.mutation({
       query: (propertyData) => ({
         url: "/listing/need-roommate",
@@ -71,9 +79,10 @@ export const apiSlice = createApi({
 export const {
   useLoginMutation,
   useRegisterMutation,
+  useVerifyOTPMutation,
   useNeedRoommateMutation,
   useNeedRoomMutation,
   useGetUserQuery,
   useEditUserMutation,
-  useChangePasswordMutation
+  useChangePasswordMutation,
 } = apiSlice;

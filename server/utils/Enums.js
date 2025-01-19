@@ -32,4 +32,5 @@ const amenities = [
     "Laundry", "24/7 Security", "Power Backup", "Elevator", "Housekeeping", 
     "Furnished", "cook", "Fridge", "Kitchen"
 ];
+
 export { propertyHighlights, amenities, userHighlights };

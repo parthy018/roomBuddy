@@ -71,7 +71,7 @@ const ListingRoom = () => {
 
   const highlightOptions = [
     "Working full time",
-    "College student",
+    "College Student",
     "25+ age",
     "English speaking",
     "Working night shifts",

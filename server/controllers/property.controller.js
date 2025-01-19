@@ -28,7 +28,7 @@ const getAllPropertiesbyPlace = async (req, res) => {
 
     
         if (!properties.length) {
-            return sendErrorResponse(res, `No properties found for ${location}`, 404);
+            return sendErrorResponse(res, `No properties found for ${location}!`, 404);
         }
 
        

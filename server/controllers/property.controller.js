@@ -11,7 +11,7 @@ const getAllPropertiesbyPlace = asyncHandler(async (req, res) => {
     const { minRent, maxRent, gender } = req.query;
 
     if (!location) {
-        return sendErrorResponse(res, 'Location is required', 400);
+        throw new sendErrorResponse('Location is required', 400);
     }
 
     const filter = { place: location };
@@ -26,7 +26,7 @@ const getAllPropertiesbyPlace = asyncHandler(async (req, res) => {
     }).select('place rent lookingGender');
 
     if (!properties.length) {
-        return sendErrorResponse(res, `No properties found for ${location}!`, 404);
+        throw new sendErrorResponse(`No properties found for ${location}!`, 404);
     }
 
     const responseData = properties.map((property) => ({
@@ -87,7 +87,7 @@ const getPropertyDetailById = asyncHandler(async (req, res) => {
     });
 
     if (!roommateProperty && !roomProperty) {
-        return sendErrorResponse(res, "Property details not found", 404);
+        throw new sendErrorResponse("Property details not found", 404);
     }
 
     if (roommateProperty) {

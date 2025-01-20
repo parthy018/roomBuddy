@@ -12,7 +12,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
   const existingUser = await User.findOne({ email });
   console.log("existingUser", existingUser);
-  if (existingUser) return sendErrorResponse(res, "User already exists", 409);
+  if (existingUser) throw new sendErrorResponse("User already exists", 409);
 
   // Generate OTP and expiration time
   const otp = generateOTP();
@@ -45,10 +45,10 @@ const verifyOTP = asyncHandler(async (req, res) => {
   console.log("otp", otp, tempUser.otp);
 
   if (tempUser.otp !== otp || tempUser.otpExpiresAt < new Date()) {
-    return sendErrorResponse(res, "Invalid or expired OTP", 400);
+    throw new sendErrorResponse("Invalid or expired OTP", 400);
   }
 
-  if (!tempUser) return sendErrorResponse(res, "User not found", 404);
+  if (!tempUser) throw new sendErrorResponse("User not found", 404);
 
   // Check if profile picture exists
   let profilePicture = req.body.profilePicture;
@@ -112,11 +112,11 @@ const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
   const user = await User.findOne({ email });
-  if (!user) return sendErrorResponse(res, "Invalid credentials", 400);
+  if (!user) throw new sendErrorResponse("Invalid credentials", 400);
 
   // Compare the provided password with the hashed password
   const isMatch = await bcrypt.compare(password, user.password);
-  if (!isMatch) return sendErrorResponse(res, "Invalid credentials", 400);
+  if (!isMatch) throw new sendErrorResponse("Invalid credentials", 400);
 
   // Generate a JWT token
   const token = jwt.sign(
@@ -153,7 +153,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(id).select("email gender name");
 
   if (!user) {
-    return sendErrorResponse(res, `User not found`, 404);
+    throw new sendErrorResponse(`User not found`, 404);
   }
 
   return res.status(200).json({ success: true, data: user });
@@ -164,7 +164,7 @@ const editUserProfile = asyncHandler(async (req, res) => {
   const { email, gender, name } = req.body;
   const user = await User.findById(id);
   if (!user) {
-    return sendErrorResponse(res, "User not found", 404);
+    throw new sendErrorResponse("User not found", 404);
   }
   user.email = email;
   user.gender = gender;
@@ -179,7 +179,7 @@ const editProfileImage = asyncHandler(async (req, res) => {
   // Check if the user exists
   const user = await User.findById(id);
   if (!user) {
-    return sendErrorResponse(res, "User not found", 404);
+    throw new sendErrorResponse("User not found", 404);
   }
 
   let profilePicture = req.body.profilePicture || user.profilePicture; // Default to the existing profile picture
@@ -191,7 +191,7 @@ const editProfileImage = asyncHandler(async (req, res) => {
 
   // Ensure a profile picture is provided
   if (!profilePicture) {
-    return sendErrorResponse(res, "Profile picture is required", 400);
+    throw new sendErrorResponse("Profile picture is required", 400);
   }
 
   // Update the user's profile picture
@@ -211,15 +211,14 @@ const changeUserPassword = asyncHandler(async (req, res) => {
   const userId = req.user.userId;
 
   if (!old_password || !new_password || !confirm_new_password) {
-    return sendErrorResponse(res, "All fields are required", 400);
+    throw new sendErrorResponse("All fields are required", 400);
   }
   const user = await User.findById(userId);
   if (!user) {
-    return sendErrorResponse(res, "User not found", 404);
+    throw new sendErrorResponse("User not found", 404);
   }
   if (new_password !== confirm_new_password) {
-    return sendErrorResponse(
-      res,
+    throw new sendErrorResponse(
       "New password and confirm new password are not match",
       409
     );
@@ -231,7 +230,7 @@ const changeUserPassword = asyncHandler(async (req, res) => {
   );
 
   if (!isOldPasswordCorrect) {
-    return sendErrorResponse(res, "Old password is incorrect", 404);
+    throw new sendErrorResponse("Old password is incorrect", 404);
   }
   const salt = await bcrypt.genSalt(10);
   const hashPassword = await bcrypt.hash(new_password, salt);

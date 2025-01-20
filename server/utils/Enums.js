@@ -1,9 +1,15 @@
 const userHighlights = [
-    "working full time", "College Student",
-    "25+ age","Engineering background", "working night shifts",
-    "Have 2 wheeler", "Have 4 wheeler",
-    "Will shift immediately", "Have pets",
-    "Need no furnishing", "Pure vegetarian",
+  "Working full time",
+  "College Student",
+  "25+ age",
+  "English speaking",
+  "Working night shifts",
+  "Will shift immediately",
+  "Have pets",
+  "Need no furnishing",
+  "Pure vegetarian",
+  "Have 2 wheeler",
+  "Have 4 wheeler",
 ];
 
 const propertyHighlights=[

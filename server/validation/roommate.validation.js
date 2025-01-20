@@ -1,5 +1,4 @@
 import Joi from "joi";
-import { propertyHighlights,amenities } from "../utils/Enums.js";
 
 const roommateValidation = Joi.object({
     place:Joi.string().required(),

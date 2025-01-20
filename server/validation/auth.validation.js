@@ -15,25 +15,23 @@ const loginSchema = Joi.object({
   });
 
 
-  const userSchema = Joi.object({
-    name: Joi.string().required().messages({
-      'string.empty': 'Name is required',
-    }),
-    email: emailValidation,
-    password: Joi.string().min(6).required().messages({
-      'string.min': 'Password must be at least 6 characters long',
-      'string.empty': 'Password is required',
-    }),
-    role: Joi.string().valid('seeker', 'host', 'admin').required().messages({
-      'any.only': 'Role must be one of: seeker, host, admin',
-    }),
-    gender: Joi.string().valid('male', 'female').required().messages({
-      'any.only': 'Gender must be one of: male, female',
-    }),
-  
-  });
-  
+const userSchema = Joi.object({
+  name: Joi.string().required().messages({
+    'string.empty': 'Name is required',
+  }),
+  email: emailValidation,
+  password: Joi.string().min(6).required().messages({
+    'string.min': 'Password must be at least 6 characters long',
+    'string.empty': 'Password is required',
+  }),
+  role: Joi.string().valid('seeker', 'host', 'admin').required().messages({
+    'any.only': 'Role must be one of: seeker, host, admin',
+  }),
+  gender: Joi.string().valid('male', 'female').required().messages({
+    'any.only': 'Gender must be one of: male, female',
+  }),
 
-
+});
+  
 
 export { loginSchema, userSchema };
